@@ -1,4 +1,29 @@
 # emacs_config
 my emacs config
 
-still under construction
+Git clone my configuration to your new `~/.emacs.d/` :
+```
+git clone https://github.com/PiyushDatta/.emacs.d.git ~/.emacs.d
+```
+
+# Commands
+
+M-x:
+```
+ESC-x
+```
+
+C-x
+```
+Ctrl-x
+```
+
+Delete other windows:
+```
+M-x delete-other-windows
+```
+
+Open treemacs:
+```
+C-x t t
+```
