@@ -4,4 +4,6 @@
 !.gitignore
 !init.el
 !/themes/
+!themes/
+!themes/*
 !README.md
