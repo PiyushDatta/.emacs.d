@@ -540,6 +540,12 @@
   :after treemacs magit
   :ensure t)
 
+;; Swiper, alternative to isearch (ctrl-f find/search)
+(use-package swiper
+  :after ivy
+  :bind (("\C-f" . swiper)
+		 ("\C-r" . swiper)))
+
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
 ; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
