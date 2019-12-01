@@ -246,7 +246,8 @@
 (cua-mode t)
 
 ;; incremental search (ctrl-find)
-(global-set-key (kbd "C-f") 'isearch)
+(global-set-key (kbd "C-f") 'isearch-forward)
+(define-key isearch-mode-map "\C-f" 'isearch-repeat-forward)
 
 ;; save
 (global-set-key (kbd "C-s") 'save-buffer)

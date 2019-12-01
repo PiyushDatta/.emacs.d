@@ -47,3 +47,8 @@ Change buffers
 ```
 C-x -> (right/left arrow key)
 ```
+
+Eval buffer
+```
+M-x eval-buffer
+```
