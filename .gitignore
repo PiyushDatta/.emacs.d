@@ -3,5 +3,5 @@
 # Except for..
 !.gitignore
 !init.el
-!themes/*
+!/themes/
 !README.md
