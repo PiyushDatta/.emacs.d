@@ -27,3 +27,23 @@ Open treemacs:
 ```
 C-x t t
 ```
+
+Switch between windows:
+```
+C-x o
+```
+
+Close current windows:
+```
+C-x 0
+```
+
+Split window into 3 vertical windows
+```
+C-x 3
+```
+
+Change buffers
+```
+C-x -> (right/left arrow key)
+```

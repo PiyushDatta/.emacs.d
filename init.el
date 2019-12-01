@@ -10,7 +10,7 @@
 
 (let* ((minver "24.4"))
   (when (version< emacs-version minver)
-    (error "Emacs v%s or higher is required." minver)))
+	(error "Emacs v%s or higher is required." minver)))
 
 (defvar best-gc-cons-threshold
   4000000
@@ -25,7 +25,7 @@
 ;; https://bugs.debian.org/766397
 (eval-after-load "enriched"
   '(defun enriched-decode-display-prop (start end &optional param)
-     (list start end)))
+	 (list start end)))
 ;; }}
 ;;----------------------------------------------------------------------------
 ;; Which functionality to enable (use t or nil for true and false)
@@ -39,10 +39,10 @@
 (setq *emacs25* (>= emacs-major-version 25))
 (setq *emacs26* (>= emacs-major-version 26))
 (setq *no-memory* (cond
-                   (*is-a-mac*
-                    (< (string-to-number (nth 1 (split-string (shell-command-to-string "sysctl hw.physmem")))) 4000000000))
-                   (*linux* nil)
-                   (t nil)))
+				   (*is-a-mac*
+					(< (string-to-number (nth 1 (split-string (shell-command-to-string "sysctl hw.physmem")))) 4000000000))
+				   (*linux* nil)
+				   (t nil)))
 
 ;; @see https://www.reddit.com/r/emacs/comments/55ork0/is_emacs_251_noticeably_slower_than_245_on_windows/
 ;; Emacs 25 does gc too frequently
@@ -55,22 +55,22 @@
 (defun require-init (pkg &optional maybe-disabled)
   "Load PKG if MAYBE-DISABLED is nil or it's nil but start up in normal slowly."
   (when (or (not maybe-disabled) (not (boundp 'startup-now)))
-    (load (file-truename (format "~/.emacs.d/lisp/%s" pkg)) t t)))
+	(load (file-truename (format "~/.emacs.d/lisp/%s" pkg)) t t)))
 
 (defun local-require (pkg)
   (unless (featurep pkg)
-    (load (expand-file-name
-           (cond
-            ((eq pkg 'go-mode-load)
-             (format "~/.emacs.d/site-lisp/go-mode/%s" pkg))
-            (t
-             (format "~/.emacs.d/site-lisp/%s/%s" pkg pkg))))
-          t t)))
+	(load (expand-file-name
+		   (cond
+			((eq pkg 'go-mode-load)
+			 (format "~/.emacs.d/site-lisp/go-mode/%s" pkg))
+			(t
+			 (format "~/.emacs.d/site-lisp/%s/%s" pkg pkg))))
+		  t t)))
 
 ;; *Message* buffer should be writable in 24.4+
 (defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
   (if (string= "*Messages*" (buffer-name))
-      (read-only-mode -1)))
+	  (read-only-mode -1)))
 
 ;; @see https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; Normally file-name-handler-alist is set to
@@ -157,23 +157,23 @@
 
   ;; create site-lisp directory
   (let ((sitelisp-dir "~/.emacs.d/site-lisp/"))
-    (unless (file-exists-p sitelisp-dir)
-      (make-directory sitelisp-dir)))
+	(unless (file-exists-p sitelisp-dir)
+	  (make-directory sitelisp-dir)))
 
   (unless (boundp 'startup-now)
-    ;; my personal setup, other major-mode specific setup need it.
-    ;; It's dependent on "~/.emacs.d/site-lisp/*.el"
-    (load (expand-file-name "~/.custom.el") t nil)
+	;; my personal setup, other major-mode specific setup need it.
+	;; It's dependent on "~/.emacs.d/site-lisp/*.el"
+	(load (expand-file-name "~/.custom.el") t nil)
 
-    ;; @see https://www.reddit.com/r/emacs/comments/4q4ixw/how_to_forbid_emacs_to_touch_configuration_files/
-    ;; See `custom-file' for details.
-    (load (setq custom-file (expand-file-name "~/.emacs.d/custom-set-variables.el")) t t)))
+	;; @see https://www.reddit.com/r/emacs/comments/4q4ixw/how_to_forbid_emacs_to_touch_configuration_files/
+	;; See `custom-file' for details.
+	(load (setq custom-file (expand-file-name "~/.emacs.d/custom-set-variables.el")) t t)))
 
 (setq gc-cons-threshold best-gc-cons-threshold)
 
 (when (require 'time-date nil t)
   (message "Emacs startup time: %d seconds."
-           (time-to-seconds (time-since emacs-load-start-time))))
+		   (time-to-seconds (time-since emacs-load-start-time))))
 
 ;;; Local Variables:
 ;;; no-byte-compile: t
@@ -189,13 +189,13 @@
 (setq default-directory "~/")
 (setq ring-bell-function 'ignore)
 (global-set-key (kbd "C-x C-f")  (lambda () (interactive)
-                                     (cd "~/.emacs.d")
-                                     (call-interactively 'find-file)))
+									 (cd "~/.emacs.d")
+									 (call-interactively 'find-file)))
 
 ;; create themes directory
 (let ((themes-dir (concat default-directory "/.emacs.d/themes")))
   (unless (file-exists-p themes-dir)
-    (make-directory themes-dir)))
+	(make-directory themes-dir)))
 
 ;; workaround bug in Emacs 26.2
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -203,6 +203,13 @@
 ;; Load theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'monokai t)
+
+;; Set default font
+(set-face-attribute 'default nil
+					:family "consolas"
+					:height 160
+					:weight 'normal
+					:width 'normal)
 
 ;; Take off tool bar/menu bar/scroll bar
 (tool-bar-mode -1)
@@ -217,9 +224,9 @@
 
 ;; better scrolling experience
 (setq scroll-margin 0
-      scroll-conservatively 10000
-      scroll-preserve-screen-position t
-      auto-window-vscroll nil)
+	  scroll-conservatively 10000
+	  scroll-preserve-screen-position t
+	  auto-window-vscroll nil)
 
 ;; increase line space for better readability
 (setq-default line-spacing 3)
@@ -235,17 +242,17 @@
 ;;==================********* KEYBINDS *********==============================
 ;;============================================================================
 ;;============================================================================
-;; copy
-(global-set-key (kbd "C-c") 'kill-ring-save)    
-;; cut
-(global-set-key (kbd "C-x x") 'kill-region)
-;; paste
-(global-set-key (kbd "C-x v") 'yank)
-;; incremental search
-(global-set-key (kbd "C-x C-s") 'isearch-forward)
+;; copy C-c, cut C-x, paste C-v, undo C-z
+(cua-mode t)
+
+;; incremental search (ctrl-find)
+(global-set-key (kbd "C-f") 'isearch)
+
 ;; save
 (global-set-key (kbd "C-s") 'save-buffer)
 
+;; scroll up
+(global-set-key (kbd "C-x z") 'scroll-up-command)
 
 ;;============================================================================
 ;;============================================================================
@@ -284,15 +291,15 @@
   :ensure nil
   :config
   (defun ian/split-and-follow-horizontally ()
-    "Split window below."
-    (interactive)
-    (split-window-below)
-    (other-window 1))
+	"Split window below."
+	(interactive)
+	(split-window-below)
+	(other-window 1))
   (defun ian/split-and-follow-vertically ()
-    "Split window right."
-    (interactive)
-    (split-window-right)
-    (other-window 1))
+	"Split window right."
+	(interactive)
+	(split-window-right)
+	(other-window 1))
   (global-set-key (kbd "C-x 2") 'ian/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") 'ian/split-and-follow-vertically))
 
@@ -325,7 +332,7 @@
 (use-package mwheel
   :ensure nil
   :config (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
-                mouse-wheel-progressive-speed nil))
+				mouse-wheel-progressive-speed nil))
 
 ;; matching parenthesis
 (use-package paren
@@ -355,18 +362,18 @@
 
 (use-package solaire-mode
   :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-         (minibuffer-setup . solaire-mode-in-minibuffer))
+		 (minibuffer-setup . solaire-mode-in-minibuffer))
   :config
   (solaire-global-mode)
   (solaire-mode-swap-bg))
 
 (use-package ido-vertical-mode
   :hook ((after-init . ido-mode)
-         (after-init . ido-vertical-mode))
+		 (after-init . ido-vertical-mode))
   :config
   (setq ido-everywhere t
-        ido-enable-flex-matching t
-        ido-vertical-define-keys 'C-n-C-p-up-and-down))
+		ido-enable-flex-matching t
+		ido-vertical-define-keys 'C-n-C-p-up-and-down))
 
 (use-package flx-ido :config (flx-ido-mode +1))
 
@@ -375,20 +382,20 @@
 (use-package format-all
   :config
   (defun ian/format-code ()
-    "Auto-format whole buffer"
-    (interactive)
-    (if (derived-mode-p 'prolog-mode)
-        (prolog-indent-buffer)
-      (format-all-buffer))))
+	"Auto-format whole buffer"
+	(interactive)
+	(if (derived-mode-p 'prolog-mode)
+		(prolog-indent-buffer)
+	  (format-all-buffer))))
 
 (use-package lsp-mode
   :hook ((c-mode ; clangd
-          c-or-c++-mode ; clangd
-          java-mode ; eclipse-jdtls
-          js-mode ; typescript-language-server
-          python-mode ; pyls
-          dart-mode
-          web-mode) . lsp)
+		  c-or-c++-mode ; clangd
+		  java-mode ; eclipse-jdtls
+		  js-mode ; typescript-language-server
+		  python-mode ; pyls
+		  dart-mode
+		  web-mode) . lsp)
   :commands lsp
   :config
   (setq lsp-prefer-flymake nil)
@@ -401,38 +408,38 @@
 
 (use-package web-mode
   :mode (("\\.tsx?\\'" . web-mode)
-         ("\\.html?\\'" . web-mode))
+		 ("\\.html?\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2
-        web-mode-code-indent-offset 2
-        web-mode-css-indent-offset 2))
+		web-mode-code-indent-offset 2
+		web-mode-css-indent-offset 2))
 
 (use-package company
   :diminish company-mode
   :hook (prog-mode . company-mode)
   :config
   (setq company-minimum-prefix-length 1
-        company-idle-delay 0.1
-        company-selection-wrap-around t
-        company-tooltip-align-annotations t
-        company-frontends '(company-pseudo-tooltip-frontend ; show tooltip even for single candidate
-                            company-echo-metadata-frontend))
+		company-idle-delay 0.1
+		company-selection-wrap-around t
+		company-tooltip-align-annotations t
+		company-frontends '(company-pseudo-tooltip-frontend ; show tooltip even for single candidate
+							company-echo-metadata-frontend))
   (with-eval-after-load 'company
-    (define-key company-active-map (kbd "C-n") 'company-select-next)
-    (define-key company-active-map (kbd "C-p") 'company-select-previous)))
+	(define-key company-active-map (kbd "C-n") 'company-select-next)
+	(define-key company-active-map (kbd "C-p") 'company-select-previous)))
 
 (use-package yasnippet-snippets
   :config
   (yas-global-mode +1)
   (advice-add 'company-complete-common
-              :before
-              (lambda ()
-                (setq my-company-point (point))))
+			  :before
+			  (lambda ()
+				(setq my-company-point (point))))
   (advice-add 'company-complete-common
-              :after
-              (lambda ()
-                (when (equal my-company-point (point))
-                  (yas-expand)))))
+			  :after
+			  (lambda ()
+				(when (equal my-company-point (point))
+				  (yas-expand)))))
 
 ;; centaur tabs
 (use-package centaur-tabs
@@ -442,11 +449,11 @@
   (centaur-tabs-mode +1)
   (centaur-tabs-headline-match)
   (setq centaur-tabs-set-modified-marker t
-        centaur-tabs-modified-marker " ● "
-        centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-height 30
-        centaur-tabs-set-icons t
-        centaur-tabs-close-button " × ")
+		centaur-tabs-modified-marker " ● "
+		centaur-tabs-cycle-scope 'tabs
+		centaur-tabs-height 30
+		centaur-tabs-set-icons t
+		centaur-tabs-close-button " × ")
   (centaur-tabs-change-fonts "Arial" 130)
   (centaur-tabs-group-by-projectile-project)
   :bind
@@ -459,64 +466,64 @@
   :defer t
   :init
   (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+	(define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (progn
-    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay      0.5
-          treemacs-display-in-side-window        t
-          treemacs-eldoc-display                 t
-          treemacs-file-event-delay              5000
-          treemacs-file-extension-regex          treemacs-last-period-regex-value
-          treemacs-file-follow-delay             0.2
-          treemacs-follow-after-init             t
-          treemacs-git-command-pipe              ""
-          treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2
-          treemacs-indentation-string            " "
-          treemacs-is-never-other-window         nil
-          treemacs-max-git-entries               5000
-          treemacs-missing-project-action        'ask
-          treemacs-no-png-images                 t
-          treemacs-no-delete-other-windows       t
-          treemacs-project-follow-cleanup        nil
-          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                      'left
-          treemacs-recenter-distance             0.1
-          treemacs-recenter-after-file-follow    nil
-          treemacs-recenter-after-tag-follow     nil
-          treemacs-recenter-after-project-jump   'always
-          treemacs-recenter-after-project-expand 'on-distance
-          treemacs-show-cursor                   nil
-          treemacs-show-hidden-files             t
-          treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-desc
-          treemacs-space-between-root-nodes      t
-          treemacs-tag-follow-cleanup            t
-          treemacs-tag-follow-delay              1.5
-          treemacs-width                         25)
+	(setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+		  treemacs-deferred-git-apply-delay      0.5
+		  treemacs-display-in-side-window        t
+		  treemacs-eldoc-display                 t
+		  treemacs-file-event-delay              5000
+		  treemacs-file-extension-regex          treemacs-last-period-regex-value
+		  treemacs-file-follow-delay             0.2
+		  treemacs-follow-after-init             t
+		  treemacs-git-command-pipe              ""
+		  treemacs-goto-tag-strategy             'refetch-index
+		  treemacs-indentation                   2
+		  treemacs-indentation-string            " "
+		  treemacs-is-never-other-window         nil
+		  treemacs-max-git-entries               5000
+		  treemacs-missing-project-action        'ask
+		  treemacs-no-png-images                 t
+		  treemacs-no-delete-other-windows       t
+		  treemacs-project-follow-cleanup        nil
+		  treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+		  treemacs-position                      'left
+		  treemacs-recenter-distance             0.1
+		  treemacs-recenter-after-file-follow    nil
+		  treemacs-recenter-after-tag-follow     nil
+		  treemacs-recenter-after-project-jump   'always
+		  treemacs-recenter-after-project-expand 'on-distance
+		  treemacs-show-cursor                   nil
+		  treemacs-show-hidden-files             t
+		  treemacs-silent-refresh                nil
+		  treemacs-sorting                       'alphabetic-desc
+		  treemacs-space-between-root-nodes      t
+		  treemacs-tag-follow-cleanup            t
+		  treemacs-tag-follow-delay              1.5
+		  treemacs-width                         25)
 
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
+	;; The default width and height of the icons is 22 pixels. If you are
+	;; using a Hi-DPI display, uncomment this to double the icon size.
+	;;(treemacs-resize-icons 44)
 
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode t)
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple))))
+	(treemacs-follow-mode t)
+	(treemacs-filewatch-mode t)
+	(treemacs-fringe-indicator-mode t)
+	(pcase (cons (not (null (executable-find "git")))
+				 (not (null treemacs-python-executable)))
+	  (`(t . t)
+	   (treemacs-git-mode 'deferred))
+	  (`(t . _)
+	   (treemacs-git-mode 'simple))))
   :bind
   (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+		("M-0"       . treemacs-select-window)
+		("C-x t 1"   . treemacs-delete-other-windows)
+		("C-x t t"   . treemacs)
+		("C-x t B"   . treemacs-bookmark)
+		("C-x t C-t" . treemacs-find-file)
+		("C-x t M-t" . treemacs-find-tag)))
 
 
 (use-package treemacs-projectile
