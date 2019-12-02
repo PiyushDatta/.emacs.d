@@ -17,6 +17,12 @@ C-x
 ```
 Ctrl-x
 ```
+Alt/Command (mac) -x
+```
+Alt-x
+OR
+Command-x (on mac)
+```
 
 Delete other windows:
 ```
@@ -91,7 +97,9 @@ C-c C-c
 
 Projectile find file
 ```
-C-c p
+s-p f
+OR
+C-c p f
 ```
 
 
