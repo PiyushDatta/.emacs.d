@@ -412,14 +412,14 @@
 
 (use-package magit :bind ("C-x g" . magit-status))
 
-(use-package format-all
-  :config
-  (defun ian/format-code ()
-	"Auto-format whole buffer"
-	(interactive)
-	(if (derived-mode-p 'prolog-mode)
-		(prolog-indent-buffer)
-	  (format-all-buffer))))
+;; (use-package format-all
+;;   :config
+;;   (defun ian/format-code ()
+;;	"Auto-format whole buffer"
+;;	(interactive)
+;;	(if (derived-mode-p 'prolog-mode)
+;;		(prolog-indent-buffer)
+;;	  (format-all-buffer))))
 
 (use-package lsp-mode
   :hook ((c-mode ; clangd
