@@ -246,8 +246,8 @@
 (cua-mode t)
 
 ;; incremental search (ctrl-find)
-(global-set-key (kbd "C-f") 'isearch-forward)
-(define-key isearch-mode-map "\C-f" 'isearch-repeat-forward)
+(global-set-key (kbd "C-S-f") 'isearch-forward)
+(define-key isearch-mode-map "\C-S-f" 'isearch-repeat-forward)
 
 ;; save
 (global-set-key (kbd "C-s") 'save-buffer)
@@ -256,7 +256,7 @@
 (global-set-key (kbd "C-x z") 'scroll-up-command)
 
 ;; swiper find text within all buffers, same as pycharm/intelij keybind
-(global-set-key (kbd "C-S-f") 'swiper-all)
+(global-set-key (kbd "C-f") 'swiper-all)
 
 ;; find a file in treemacs directory, same as pycharm/intelij keybind
 (global-set-key (kbd "C-S-n") 'treemacs-find-file)
