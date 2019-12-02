@@ -237,6 +237,9 @@
 ;; Open last buffer on load up
 (desktop-save-mode 1)
 
+;; disable auto formatting
+(setq web-mode-enable-auto-indentation nil)
+
 ;;============================================================================
 ;;============================================================================
 ;;==================********* KEYBINDS *********==============================
@@ -385,9 +388,9 @@
   :ensure nil
   :config (add-hook 'prog-mode-hook 'electric-pair-mode))
 
-(use-package whitespace
-  :ensure nil
-  :config (add-hook 'before-save-hook 'whitespace-cleanup))
+;; (use-package whitespace
+;;   :ensure nil
+;;   :config (add-hook 'before-save-hook 'whitespace-cleanup))
 
 (use-package display-line-numbers
   :ensure nil
@@ -444,8 +447,9 @@
 		 ("\\.html?\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2
-		web-mode-code-indent-offset 2
-		web-mode-css-indent-offset 2))
+  		web-mode-code-indent-offset 2
+  		web-mode-css-indent-offset
+     2))
 
 (use-package company
   :diminish company-mode
