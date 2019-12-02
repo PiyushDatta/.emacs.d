@@ -359,6 +359,16 @@
   (add-hook 'prog-mode-hook 'eldoc-mode)
   (setq eldoc-idle-delay 0.4))
 
+;; projectile, search for files in directory
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-enable-caching t)
+ (setq projectile-completion-system 'ivy)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+
 ;; python
 (use-package python
   :ensure nil
@@ -558,14 +568,23 @@
 		("M-0"       . treemacs-select-window)
 		("C-x t 1"   . treemacs-delete-other-windows)
 		("C-x t t"   . treemacs)
+		("C-x t r"        . treemacs-toggle)
+        ("C-x t p"  . treemacs-projectile-toggle)
 		("C-x t B"   . treemacs-bookmark)
 		("C-x t C-t" . treemacs-find-file)
-		("C-x t M-t" . treemacs-find-tag)))
+		("C-x t M-t" . treemacs-find-tag))
+  )
+  
+  (use-package treemacs-projectile
+     :defer t
+     :ensure t
+     :config
+     (setq treemacs-header-function #'treemacs-projectile-create-header)
+  )
 
-
-(use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
+;; (use-package treemacs-projectile
+;;   :after treemacs projectile
+;;   :ensure t)
 
 ; (use-package treemacs-icons-dired
 ;   :after treemacs dired

@@ -74,3 +74,24 @@ For mac users, to show hidden files ('.' files)
 Command-Shift-. (period)
 ```
 
+For shell
+```
+M-x shell
+```
+
+Use previous command in shell
+```
+M-p
+```
+
+Kill process in shell
+```
+C-c C-c
+```
+
+Projectile find file
+```
+C-c p
+```
+
+
