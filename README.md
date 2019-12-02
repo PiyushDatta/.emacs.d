@@ -57,3 +57,20 @@ Check the key sequence for keybinds
 ```
 C-h k [key sequence] (e.g C-h k C-m)
 ```
+
+Evaluate elisp
+```
+M-: 
+(ESC + :)
+```
+
+Find directory of user's init file
+```
+M-: user-init-file
+```
+
+For mac users, to show hidden files ('.' files)
+```
+Command-Shift-. (period)
+```
+
