@@ -372,7 +372,7 @@
 ;; python
 (use-package python
   :ensure nil
-  :config (setq python-indent-offset 2))
+  :config (setq python-indent-offset 4))
 
 ;; mouse wheel speed
 (use-package mwheel
