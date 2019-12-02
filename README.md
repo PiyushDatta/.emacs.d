@@ -52,3 +52,8 @@ Eval buffer
 ```
 M-x eval-buffer
 ```
+
+Check the key sequence for keybinds
+```
+C-h k [key sequence] (e.g C-h k C-m)
+```

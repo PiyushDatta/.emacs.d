@@ -255,6 +255,38 @@
 ;; scroll up
 (global-set-key (kbd "C-x z") 'scroll-up-command)
 
+;; swiper find text within all buffers, same as pycharm/intelij keybind
+(global-set-key (kbd "C-S-f") 'swiper-all)
+
+;; find a file in treemacs directory, same as pycharm/intelij keybind
+(global-set-key (kbd "C-S-n") 'treemacs-find-file)
+
+;; to go definition, dumb jump
+(global-set-key (kbd "C-x c") 'dumb-jump-go)
+
+;; compile c/cpp code in one key stroke
+(defun compile_cpp_project ()
+  "Build cpp project"
+  (interactive)
+  ;; create out directory
+  (let ((working-dir (concat default-directory "/out")))
+	(unless (file-exists-p working-dir)
+	  (make-directory working-dir)))
+  (let ((buf-name '"*compile_cpp_project*")
+		(working-dir '~/out))
+	(save-excursion
+	  (with-current-buffer (get-buffer-create buf-name)
+		(barf-if-buffer-read-only)
+		(erase-buffer))
+	  (cd working-dir)
+	  (call-process-shell-command "pwd" nil buf-name 't)
+	  (call-process-shell-command "gcc -c hello.c" nil buf-name 't)
+	  (call-process-shell-command "gcc hello.o" nil buf-name 't)
+	  (call-process-shell-command "./a.out" nil buf-name 't)
+	  (message "compile project 1 done")
+	  )))
+;;(global-set-key (kbd "C-b") 'jea-compile-project-1)
+
 ;;============================================================================
 ;;============================================================================
 ;;==================********* INSTALL PACKAGES *********======================
@@ -546,8 +578,17 @@
   :bind (("\C-f" . swiper)
 		 ("\C-r" . swiper)))
 
+;; go-to definitions
+(use-package dumb-jump
+  :config (setq dumb-jump-selector 'ivy) ;; (setq dumb-jump-selector 'helm)
+  :ensure)
+
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
 ; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
 ; (use-package highlight-operators :hook (prog-mode . highlight-operators-mode))
-; (use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
+;(use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
+
+(provide 'init)
+
+;;; init.el ends here
