@@ -213,7 +213,7 @@
 
 ;; Take off tool bar/menu bar/scroll bar
 (tool-bar-mode -1)
-;;(menu-bar-mode -1)
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 
 ;; replace the active region just by typing text, just like modern editors
@@ -309,6 +309,9 @@
 ;; turn of alt/cmd-w 
 (global-set-key (kbd "s-w") nil)
 
+;; turn off close window
+(global-set-key (kbd "s-q") nil)
+
 ;; switch buffers
 (define-key global-map (kbd "s-w <right>") 'next-buffer)
 (define-key global-map (kbd "s-w <s-right>") 'next-buffer)
@@ -326,6 +329,22 @@
 (define-key global-map (kbd "<s-right>") 'right-word)
 (define-key global-map (kbd "<C-left>") 'left-word)
 (define-key global-map (kbd "<s-left>") 'left-word)
+
+;; for centaur tabs, scroll through the tabs
+(define-key global-map (kbd "s-q <right>") 'centaur-tabs-forward)
+(define-key global-map (kbd "s-q <left>") 'centaur-tabs-backward)
+
+;; comment or uncomment region/line
+(defun comment-or-uncomment-region-or-line ()
+    "Comments or uncomments the region or the current line if there's no active region."
+    (interactive)
+    (let (beg end)
+        (if (region-active-p)
+            (setq beg (region-beginning) end (region-end))
+            (setq beg (line-beginning-position) end (line-end-position)))
+        (comment-or-uncomment-region beg end)))
+(global-set-key (kbd "s-/") 'comment-or-uncomment-region-or-line)
+(global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
 ;; compile c/cpp code in one key stroke
 (defun compile_cpp_project ()
@@ -562,8 +581,8 @@
 		centaur-tabs-height 30
 		centaur-tabs-set-icons t
 		centaur-tabs-close-button " × ")
-  (centaur-tabs-change-fonts "Arial" 130)
-  (centaur-tabs-group-by-projectile-project)
+  (centaur-tabs-change-fonts "consolas" 130)
+ ; (centaur-tabs-group-by-projectile-project)
   :bind
   ("C-S-<tab>" . centaur-tabs-backward)
   ("C-<tab>" . centaur-tabs-forward))
