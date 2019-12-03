@@ -102,4 +102,23 @@ OR
 C-c p f
 ```
 
+Find key binding for command
+```
+C-h w <command-name>
+```
+
+Find command for key binding
+```
+C-h k <key-sequence>
+```
+
+Get detailed information about command
+```
+C-h f <function-name>
+```
+
+Get detailed information about bound variable
+```
+C-h v <variable-name>
+```
 
