@@ -247,6 +247,24 @@
 ;;============================================================================
 ;; copy C-c, cut C-x, paste C-v, undo C-z
 (cua-mode t)
+;; copy entire line
+;; (defun copy-line (arg)
+;;       "Copy lines (as many as prefix argument) in the kill ring"
+;;       (interactive "p")
+;;       (kill-ring-save (line-beginning-position)
+;;                       (line-beginning-position (+ 1 arg)))
+;;       (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+;; (global-set-key (kbd "C-c l") 'copy-line)
+
+;; Select entire line
+(defun select-current-line ()
+  "Select the current line"
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+
+(global-set-key (kbd "C-e") 'select-current-line)
+(global-set-key (kbd "s-e") 'select-current-line)
 
 ;; incremental search (ctrl-find)
 ;; (global-set-key (kbd "C-S-f") 'isearch-forward)
@@ -260,12 +278,54 @@
 
 ;; swiper find text within all buffers, same as pycharm/intelij keybind
 (global-set-key (kbd "C-f") 'swiper-all)
+(global-set-key (kbd "s-f") 'swiper-all)
 
-;; find a file in treemacs directory, same as pycharm/intelij keybind
-(global-set-key (kbd "C-S-n") 'treemacs-find-file)
+;; turn off shortcut to create a new frame, so it doesn't collide with keybind below 
+(global-set-key (kbd "s-n") nil)
+
+;; find a file in directory using projectile, same as pycharm/intelij keybind
+(global-set-key (kbd "C-S-n") 'projectile-find-file)
+(global-set-key (kbd "s-S-n") 'projectile-find-file)
+(global-set-key (kbd "s-n") 'projectile-find-file)
+
+;; find text in all files in project, same as pycharm/intelij keybind
+(global-set-key (kbd "C-S-f") 'projectile-multi-occur)
 
 ;; to go definition, dumb jump
-(global-set-key (kbd "C-x c") 'dumb-jump-go)
+(global-set-key (kbd "<C-return>") 'dumb-jump-go)
+(global-set-key (kbd "<s-return>") 'dumb-jump-go)
+
+;; show line numbers for the current buffer
+(global-set-key (kbd "C-n") 'display-line-numbers-mode)
+
+;; other and prev windows
+ (defun prev-window ()
+   (interactive)
+   (other-window -1))
+(define-key global-map (kbd "s-1") 'prev-window)
+(define-key global-map (kbd "s-2") 'other-window)
+(define-key global-map (kbd "s-3") 'other-window)
+
+;; turn of alt/cmd-w 
+(global-set-key (kbd "s-w") nil)
+
+;; switch buffers
+(define-key global-map (kbd "s-w <right>") 'next-buffer)
+(define-key global-map (kbd "s-w <s-right>") 'next-buffer)
+(define-key global-map (kbd "s-w <left>") 'previous-buffer)
+(define-key global-map (kbd "s-w <s-left>") 'previous-buffer)
+
+;; go up and back paragraphs
+(define-key global-map (kbd "<C-up>") 'backward-paragraph)
+(define-key global-map (kbd "<s-up>") 'backward-paragraph)
+(define-key global-map (kbd "<C-down>") 'forward-paragraph)
+(define-key global-map (kbd "<s-down>") 'forward-paragraph)
+
+;; word right and left
+(define-key global-map (kbd "<C-right>") 'right-word)
+(define-key global-map (kbd "<s-right>") 'right-word)
+(define-key global-map (kbd "<C-left>") 'left-word)
+(define-key global-map (kbd "<s-left>") 'left-word)
 
 ;; compile c/cpp code in one key stroke
 (defun compile_cpp_project ()
@@ -364,6 +424,7 @@
   :ensure t
   :config
   (setq projectile-enable-caching t)
+  (setq projectile-generic-command "find -L . -type f -print0")
  (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
