@@ -337,6 +337,14 @@
 ;; Open/add a new projectile through treemacs
 (define-key global-map (kbd "C-x p ") 'treemacs-add-project-to-workspace)
 
+;; Make tab, always insert tab
+(defun my-insert-tab-char ()
+  "Insert a tab char. (ASCII 9, \t)"
+  (interactive)
+  (insert "\t"))	
+
+(global-set-key (kbd "TAB") 'my-insert-tab-char) ; same as Ctrl+i
+
 ;; comment or uncomment region/line
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
