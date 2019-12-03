@@ -334,6 +334,9 @@
 (define-key global-map (kbd "s-q <right>") 'centaur-tabs-forward)
 (define-key global-map (kbd "s-q <left>") 'centaur-tabs-backward)
 
+;; Open/add a new projectile through treemacs
+(define-key global-map (kbd "C-x p ") 'treemacs-add-project-to-workspace)
+
 ;; comment or uncomment region/line
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
