@@ -620,10 +620,13 @@
 ;; centaur tabs
 (use-package centaur-tabs
   :demand
-  :init (setq centaur-tabs-set-bar 'over)
+  :init (setq centaur-tabs-set-bar 'under)
   :config
   (centaur-tabs-mode +1)
   (centaur-tabs-headline-match)
+  ;; Note: If you're not using Spacemacs, in order for the underline to display
+  ;; correctly you must add the following line:
+  (setq x-underline-at-descent-line t)
   (setq centaur-tabs-set-modified-marker t
 		centaur-tabs-modified-marker " ● "
 		centaur-tabs-cycle-scope 'tabs
@@ -631,10 +634,53 @@
 		centaur-tabs-set-icons t
 		centaur-tabs-close-button " × ")
   (centaur-tabs-change-fonts "consolas" 130)
- ; (centaur-tabs-group-by-projectile-project)
+  ;; (centaur-tabs-group-by-projectile-project)
+  (defun centaur-tabs-buffer-groups
+	  ()
+      "`centaur-tabs-buffer-groups' control buffers' group rules.
+
+    Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+    All buffer name start with * will group to \"Emacs\".
+    Other buffer group by `centaur-tabs-get-group-name' with project name."
+      (list
+	(cond
+    ; (string-equal "*" (substring (buffer-name) 0 1))
+	 ((or (memq major-mode '(magit-process-mode
+		  		 magit-status-mode
+				 magit-diff-mode
+				 magit-log-mode
+				 magit-file-mode
+				 magit-blob-mode
+				 magit-blame-mode
+				 ))
+        (derived-mode-p 'prog-mode 'dired-mode)
+		  )
+	  "Emacs")
+	 ;; ((derived-mode-p 'prog-mode)
+	 ;;  "Editing")
+	 ;; ((derived-mode-p 'dired-mode)
+	 ;;  "Dired")
+	 ((memq major-mode '(helpful-mode
+	 		     help-mode))
+	  "Help")
+	 ((memq major-mode '(org-mode
+			     org-agenda-clockreport-mode
+			     org-src-mode
+			     org-agenda-mode
+			     org-beamer-mode
+			     org-indent-mode
+			     org-bullets-mode
+			     org-cdlatex-mode
+			     org-agenda-log-mode
+			     diary-mode))
+	  "OrgMode")
+	 (t
+	  (centaur-tabs-get-group-name (current-buffer))
+	  ))))  
   :bind
   ("C-S-<tab>" . centaur-tabs-backward)
-  ("C-<tab>" . centaur-tabs-forward))
+  ("C-<tab>" . centaur-tabs-forward)
+  )
 
 ;; function so that treemacs toggle works
 (defun assoc-delete-all (key alist &optional test)
