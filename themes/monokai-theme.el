@@ -105,7 +105,9 @@ Also affects 'linum-mode' background."
   :type 'string
   :group 'monokai)
 
-(defcustom monokai-orange "#FD971F"
+;; (defcustom monokai-orange "#FD971F"
+;; change to white
+(defcustom monokai-orange "#FFF"
   "Primary colors - orange"
   :type 'string
   :group 'monokai)
@@ -220,6 +222,7 @@ Also affects 'linum-mode' background."
        (monokai-green-l        "#BBEF53")
        (monokai-gray-d         "#35331D")
        (monokai-gray-l         "#7B7962")
+	     (monokai-gray-vl         "#BEBEBE")
        ;; Adaptive higher/lower contrast accented colors
        (monokai-foreground-hc  "#141414")
        (monokai-foreground-lc  "#171A0B")
@@ -286,6 +289,7 @@ Also affects 'linum-mode' background."
        (monokai-256-green-l        "#AFD700")
        (monokai-256-gray-d         "#333333")
        (monokai-256-gray-l         "#707070")
+       (monokai-256-gray-vl        "#BEBEBE")
        ;; Adaptive colors
        (monokai-256-foreground     "#F5F5F5")
        (monokai-256-background     "#1B1E1C")
@@ -341,8 +345,8 @@ Also affects 'linum-mode' background."
       (,monokai-256-class (:foreground ,monokai-256-comments))))
 
    `(font-lock-constant-face
-     ((,monokai-class (:foreground ,monokai-violet))
-      (,monokai-256-class (:foreground ,monokai-256-violet))))
+     ((,monokai-class (:foreground ,monokai-emphasis))
+      (,monokai-256-class (:foreground ,monokai-256-emphasis))))
 
    `(font-lock-doc-face
      ((,monokai-class (:foreground ,(if monokai-doc-face-as-comment
@@ -5287,28 +5291,49 @@ Also affects 'linum-mode' background."
    ;; tooltip. (NOTE: This setting has no effect on the os widgets for me
    ;; zencoding uses this)
    `(tooltip
-     ((,monokai-class (:background ,monokai-yellow-hc
+     ((,monokai-class (:background ,monokai-gray-d
                                    :foreground ,monokai-background
                                    :inherit ,monokai-pitch))))
 
    ;; treemacs
+   ;;treemacs directory
    `(treemacs-directory-face
-      ((,monokai-class (:foreground ,monokai-violet
+      ((,monokai-class (:foreground ,monokai-gray-vl
                          :background ,monokai-background
                          :weight bold))
-        (,monokai-256-class (:foreground ,monokai-256-violet
+        (,monokai-256-class (:foreground ,monokai-256-gray-vl
                               :background ,monokai-256-background
                               :weight bold))))
 
    `(treemacs-header-face
-      ((,monokai-class (:foreground ,monokai-yellow
+      ((,monokai-class (:foreground ,monokai-gray-vl
                          :background ,monokai-background
                          :underline t
                          :weight bold))
-        (,monokai-256-class (:foreground ,monokai-256-yellow
+        (,monokai-256-class (:foreground ,monokai-256-gray-vl
                               :background ,monokai-256-background
                               :underline t
                               :weight bold))))
+    ;; treemacs root
+    `(treemacs-root-face
+      ((,monokai-class (:foreground ,monokai-gray-vl
+									:background ,monokai-background
+									:weight bold))
+        (,monokai-256-class (:foreground ,monokai-256-gray-vl
+										      :background ,monokai-256-background
+										 	  :weight bold))))
+
+	`(treemacs-fringe-indicator-face
+      ((,monokai-class (:foreground ,monokai-emphasis
+                         :background ,monokai-background))
+        (,monokai-256-class (:foreground ,monokai-256-emphasis
+										 :background ,monokai-256-background))))
+      ;; treemacs files	  
+      `(treemacs-file-face
+      ((,monokai-class (:foreground ,monokai-emphasis
+                         :background ,monokai-background))
+        (,monokai-256-class (:foreground ,monokai-256-emphasis
+                              :background ,monokai-256-background))))
 
    `(treemacs-git-modified-face
       ((,monokai-class (:foreground ,monokai-green
