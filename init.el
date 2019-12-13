@@ -207,7 +207,7 @@
 ;; Set default font
 (set-face-attribute 'default nil
 					:family "consolas"
-					:height 160
+					:height 200
 					:weight 'normal
 					:width 'normal)
 
@@ -278,7 +278,7 @@
 
 ;; swiper find text within all buffers, same as pycharm/intelij keybind
 (global-set-key (kbd "C-f") 'swiper-all)
-(global-set-key (kbd "s-f") 'swiper-all)
+(global-set-key (kbd "s-f") 'swiper)
 
 ;; turn off shortcut to create a new frame, so it doesn't collide with keybind below 
 (global-set-key (kbd "s-n") nil)
@@ -790,9 +790,9 @@ Elements of ALIST that are not conses are ignored."
 
 ;; Swiper, alternative to isearch (ctrl-f find/search)
 (use-package swiper
-  :after ivy
-  :bind (("\C-f" . swiper)
-		 ("\C-r" . swiper)))
+  :after ivy)
+  ;; :bind (("\s-f" . swiper)
+		 ;; ("\C-r" . swiper)))
 
 ;; go-to definitions
 (use-package dumb-jump
@@ -800,10 +800,16 @@ Elements of ALIST that are not conses are ignored."
   :ensure)
 
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
-; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
-; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
-; (use-package highlight-operators :hook (prog-mode . highlight-operators-mode))
-;(use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
+;; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
+;; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
+;; (use-package highlight-operators :hook (prog-mode . highlight-operators-mode))
+;; (use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
+;; load highlight numbers the same way but inherit off of font-latex-math-face
+
+;; load a custom highlight operators, this one inherits off of font-lock-keyword-face
+(load "~/.emacs.d/other_elisp_files/highlight-operators-custom.el")
+;; load a custom numbers operators, this one inherits off of font-lock-regexp-grouping-backslash
+(load "~/.emacs.d/other_elisp_files/highlight-numbers-custom.el")
 
 (provide 'init)
 
