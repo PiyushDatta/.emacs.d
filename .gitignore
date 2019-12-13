@@ -6,7 +6,7 @@
 !/themes/
 !themes/
 !themes/*
-!/other_elisp_files
-!other_elisp_files/
-!other_elisp_files/*
+!/lisp
+!lisp/
+!lisp/*
 !README.md
