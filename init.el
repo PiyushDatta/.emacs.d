@@ -149,6 +149,16 @@
   ;; the key bindings in previous configuration
   (require-init 'init-ediff)
 
+  ;; Custom highlight numbers and highlight operators 
+  (require-init 'init-parent-mode t)
+  ;; inherits off of font-lock-keyword-face
+  (require-init 'init-highlight-operators-custom t)
+  ;; inherits off of font-lock-regexp-grouping-backslash
+  (require-init 'init-highlight-numbers-custom t)
+  ;; turn both highlights for all programming buffers
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+  (add-hook 'prog-mode-hook 'highlight-operators-mode)
+
   ;; @see https://github.com/hlissner/doom-emacs/wiki/FAQ
   ;; Adding directories under "site-lisp/" to `load-path' slows
   ;; down all `require' statement. So we do this at the end of startup
@@ -197,12 +207,12 @@
   (unless (file-exists-p themes-dir)
 	(make-directory themes-dir)))
 
-;; workaround bug in Emacs 26.2
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 ;; Load theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'monokai t)
+
+;; workaround bug in Emacs 26.2
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Set default font
 (set-face-attribute 'default nil
@@ -775,9 +785,9 @@ Elements of ALIST that are not conses are ignored."
      (setq treemacs-header-function #'treemacs-projectile-create-header)
   )
 
-;; (use-package treemacs-projectile
-;;   :after treemacs projectile
-;;   :ensure t)
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
 
 ; (use-package treemacs-icons-dired
 ;   :after treemacs dired
@@ -804,12 +814,6 @@ Elements of ALIST that are not conses are ignored."
 ;; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
 ;; (use-package highlight-operators :hook (prog-mode . highlight-operators-mode))
 ;; (use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
-;; load highlight numbers the same way but inherit off of font-latex-math-face
-
-;; load a custom highlight operators, this one inherits off of font-lock-keyword-face
-(load "~/.emacs.d/other_elisp_files/highlight-operators-custom.el")
-;; load a custom numbers operators, this one inherits off of font-lock-regexp-grouping-backslash
-(load "~/.emacs.d/other_elisp_files/highlight-numbers-custom.el")
 
 (provide 'init)
 

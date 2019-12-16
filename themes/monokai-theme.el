@@ -331,9 +331,9 @@ Also affects 'linum-mode' background."
 
    ;; font lock for syntax highlighting
    `(font-lock-builtin-face
-     ((,monokai-class (:foreground ,monokai-red
+     ((,monokai-class (:foreground ,monokai-emphasis
                                    :weight normal))
-      (,monokai-256-class (:foreground ,monokai-256-red
+      (,monokai-256-class (:foreground ,monokai-256-emphasis
                                         :weight normal))))
 
    `(font-lock-comment-delimiter-face
