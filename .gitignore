@@ -6,7 +6,7 @@
 !/themes/
 !themes/
 !themes/*
-!/lisp
-!lisp/
-!lisp/*
+!/site-lisp
+!site-lisp/
+!site-lisp/*
 !README.md
