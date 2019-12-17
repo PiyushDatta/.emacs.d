@@ -250,6 +250,10 @@
 ;; disable auto formatting
 (setq web-mode-enable-auto-indentation nil)
 
+;; auto revert mode (refresh buffer)
+(global-auto-revert-mode 1)
+;; auto refresh dired when file changes
+(add-hook 'dired-mode-hook 'auto-revert-mode)
 ;;============================================================================
 ;;============================================================================
 ;;==================********* KEYBINDS *********==============================
@@ -275,6 +279,12 @@
 
 (global-set-key (kbd "C-e") 'select-current-line)
 (global-set-key (kbd "s-e") 'select-current-line)
+
+;; Go to end of line
+(global-set-key (kbd "s-r") 'end-of-line)
+
+;; Go to beginning of line
+(global-set-key (kbd "s-d") 'beginning-of-line)
 
 ;; incremental search (ctrl-find)
 ;; (global-set-key (kbd "C-S-f") 'isearch-forward)
@@ -345,7 +355,10 @@
 (define-key global-map (kbd "s-q <left>") 'centaur-tabs-backward)
 
 ;; Open/add a new projectile through treemacs
-(define-key global-map (kbd "C-x p ") 'treemacs-add-project-to-workspace)
+(define-key global-map (kbd "C-x p") 'treemacs-add-project-to-workspace)
+
+;; Keyboard escape quit, just cancel everything, exits M-x as well, bound to C-g
+(define-key global-map (kbd "s-g") 'keyboard-escape-quit)
 
 ;; Make tab, always insert tab and untab with shift+tab as well, set to 4-spaces right now
 (defun indent-region-custom(numSpaces)
@@ -814,6 +827,11 @@ Elements of ALIST that are not conses are ignored."
 ;; (use-package highlight-escape-sequences :hook (prog-mode . hes-mode))
 ;; (use-package highlight-operators :hook (prog-mode . highlight-operators-mode))
 ;; (use-package all-the-icons :config (setq all-the-icons-scale-factor 1.0))
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (kill-new (buffer-file-name))
+  (message (buffer-file-name)))
 
 (provide 'init)
 
