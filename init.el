@@ -277,11 +277,11 @@
   (end-of-line) ; move to end of line
   (set-mark (line-beginning-position)))
 
-(global-set-key (kbd "C-e") 'select-current-line)
-(global-set-key (kbd "s-e") 'select-current-line)
+(global-set-key (kbd "C-r") 'select-current-line)
+(global-set-key (kbd "s-r") 'select-current-line)
 
 ;; Go to end of line
-(global-set-key (kbd "s-r") 'end-of-line)
+(global-set-key (kbd "s-e") 'end-of-line)
 
 ;; Go to beginning of line
 (global-set-key (kbd "s-d") 'beginning-of-line)
@@ -307,6 +307,9 @@
 (global-set-key (kbd "C-S-n") 'projectile-find-file)
 (global-set-key (kbd "s-S-n") 'projectile-find-file)
 (global-set-key (kbd "s-n") 'projectile-find-file)
+
+;;switch projects with projectile
+(global-set-key (kbd "C-S-p") 'projectile-switch-project)
 
 ;; find text in all files in project, same as pycharm/intelij keybind
 (global-set-key (kbd "C-S-f") 'projectile-multi-occur)
@@ -764,7 +767,7 @@ Elements of ALIST that are not conses are ignored."
 		  treemacs-space-between-root-nodes      t
 		  treemacs-tag-follow-cleanup            t
 		  treemacs-tag-follow-delay              1.5
-		  treemacs-width                         20)
+		  treemacs-width                         23)
 
 	;; The default width and height of the icons is 22 pixels. If you are
 	;; using a Hi-DPI display, uncomment this to double the icon size.

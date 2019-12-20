@@ -100,7 +100,7 @@ Also affects 'linum-mode' background."
   :group 'monokai)
 
 ;; Primary colors
-(defcustom monokai-yellow "#E6DB74"
+(defcustom monokai-yellow "#E6DA74"
   "Primary colors - yellow"
   :type 'string
   :group 'monokai)
@@ -112,7 +112,7 @@ Also affects 'linum-mode' background."
   :type 'string
   :group 'monokai)
 
-(defcustom monokai-red "#F92672"
+(defcustom monokai-red "#F92772"
   "Primary colors - red"
   :type 'string
   :group 'monokai)
@@ -162,7 +162,7 @@ Also affects 'linum-mode' background."
   :type 'string
   :group 'monokai)
 
-(defcustom monokai-emphasis "#F8F8F0"
+(defcustom monokai-emphasis "#F6F6F6"
   "Adaptive colors - emphasis"
   :type 'string
   :group 'monokai)
@@ -261,11 +261,11 @@ Also affects 'linum-mode' background."
        (monokai-256-diff-red-emphasis   "#870000")
 
        ;; Primary colors
-       (monokai-256-yellow         "#CDC673")
+       (monokai-256-yellow         "#E6DA74")
        (monokai-256-orange         "#FF8C00")
-       (monokai-256-red            "#FF1493")
+       (monokai-256-red            "#F92772")
        (monokai-256-magenta        "#D700D7")
-       (monokai-256-violet         "#AF87FF")
+       (monokai-256-violet         "#AE81FF")
        (monokai-256-blue           "#5FD7FF")
        (monokai-256-cyan           "#5FFFFF")
        (monokai-256-green          "#87D700")
@@ -294,7 +294,7 @@ Also affects 'linum-mode' background."
        (monokai-256-foreground     "#F5F5F5")
        (monokai-256-background     "#1B1E1C")
        (monokai-256-comments       "#8B8878")
-       (monokai-256-emphasis       "#FFFAFA")
+       (monokai-256-emphasis       "#F6F6F6")
        (monokai-256-line-number    "#8F908A")
        (monokai-256-highlight      "#474747")
        (monokai-256-highlight-alt  "#3E3E3E")
