@@ -217,7 +217,7 @@
 ;; Set default font
 (set-face-attribute 'default nil
 					:family "consolas"
-					:height 200
+					:height 170
 					:weight 'normal
 					:width 'normal)
 
@@ -803,7 +803,7 @@ Elements of ALIST that are not conses are ignored."
 		  treemacs-space-between-root-nodes      t
 		  treemacs-tag-follow-cleanup            t
 		  treemacs-tag-follow-delay              1.5
-		  treemacs-width                         23)
+		  treemacs-width                         16)
 
 	;; The default width and height of the icons is 22 pixels. If you are
 	;; using a Hi-DPI display, uncomment this to double the icon size.
@@ -860,6 +860,34 @@ Elements of ALIST that are not conses are ignored."
 (use-package dumb-jump
   :config (setq dumb-jump-selector 'ivy) ;; (setq dumb-jump-selector 'helm)
   :ensure)
+
+;; irony is for auto-complete, syntax checking and documentation for c++/c
+;; You will need to install irony-server first time use
+;; to install irony-server, your system need to install clang, cmake and clang-devel in advance
+;; To do so, type M-x irony-install-server RET.
+(use-package irony
+  :ensure t
+  :hook ((c++-mode . irony-mode)
+         (c-mode . irony-mode))
+  :config
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (use-package company-irony-c-headers
+    :ensure t)
+  (use-package company-irony
+    :ensure t
+    :config
+    (add-to-list (make-local-variable 'company-backends)
+                 '(company-irony company-irony-c-headers)))
+  (use-package flycheck-irony
+    :ensure t
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+    )
+  (use-package irony-eldoc
+    :ensure t
+    :config
+    (add-hook 'irony-mode-hook #'irony-eldoc)
+    ))
 
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ;; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
