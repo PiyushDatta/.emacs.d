@@ -202,6 +202,14 @@
 									 (cd "~/.emacs.d")
 									 (call-interactively 'find-file)))
 
+;; Windows performance tweaks
+(when *win64*
+	(when (boundp 'w32-pipe-read-delay)
+	  (setq w32-pipe-read-delay 0))
+	;; Set the buffer size to 64K on Windows (from the original 4K)
+	(when (boundp 'w32-pipe-buffer-size)
+	  (setq irony-server-w32-pipe-buffer-size (* 64 1024))))
+
 ;; create themes directory
 (let ((themes-dir (concat default-directory "/.emacs.d/themes")))
   (unless (file-exists-p themes-dir)
@@ -456,28 +464,48 @@
 (global-set-key (kbd "A-/") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
-;; compile c/cpp code in one key stroke
-(defun compile_cpp_project ()
-  "Build cpp project"
+;; Compile and run any file depending on the file extension.
+(defun compile-and-run-file ()
+  "Compile and run any file depending on the file extension."
   (interactive)
+  ;; get the extension name
+  (setq file-ext-name (file-name-extension buffer-file-name))
+  ;; run command based on the extension name
+  (cond ((equal file-ext-name "el") (eval-buffer))
+		((equal file-ext-name "cpp") (compile-c-cpp-file buffer-file-name))
+		(t (message "Sorry, this file extention is not supported."))))
+(global-set-key (kbd "C-b") 'compile-and-run-file)
+(global-set-key (kbd "s-b") 'compile-and-run-file)
+(global-set-key (kbd "A-b") 'compile-and-run-file)
+
+;; Compile and run c/c++ code.
+(defun compile-c-cpp-file (curr-file-full-name)
+  "Compile and run c/c++ code."
+  (interactive)
+  (setq curr-file-name (file-name-sans-extension (file-name-nondirectory curr-file-full-name)))
+  (setq curr-file-dir (file-name-directory curr-file-full-name))
+  (setq curr-file-out-dir (concat curr-file-dir "out"))
+  (setq curr-file-out-name (concat curr-file-name ".out"))
+  (setq curr-file-out-full-name
+		(format "%s/%s" (concat curr-file-dir "out") (concat curr-file-name ".out")))
+
   ;; create out directory
-  (let ((working-dir (concat default-directory "/out")))
-	(unless (file-exists-p working-dir)
-	  (make-directory working-dir)))
-  (let ((buf-name '"*compile_cpp_project*")
-		(working-dir '~/out))
-	(save-excursion
-	  (with-current-buffer (get-buffer-create buf-name)
-		(barf-if-buffer-read-only)
-		(erase-buffer))
-	  (cd working-dir)
-	  (call-process-shell-command "pwd" nil buf-name 't)
-	  (call-process-shell-command "gcc -c hello.c" nil buf-name 't)
-	  (call-process-shell-command "gcc hello.o" nil buf-name 't)
-	  (call-process-shell-command "./a.out" nil buf-name 't)
-	  (message "compile project 1 done")
-	  )))
-;;(global-set-key (kbd "C-b") 'jea-compile-project-1)
+  (unless (file-exists-p curr-file-out-dir)
+	(make-directory curr-file-out-dir))
+
+  (setq compile-shell-command
+		(format "g++ -o %s %s" curr-file-out-full-name curr-file-full-name))
+
+  ;; Compile and execute the file
+  (message (format "Compiling...%s" curr-file-full-name))
+  (setq compiled-file-err (shell-command-to-string compile-shell-command))
+
+  (when (equal "" compiled-file-err)
+	(message (format "Compiled! Output file at %s" curr-file-out-full-name))
+	(message (shell-command-to-string curr-file-out-full-name)))
+
+  (unless (equal "" compiled-file-err)
+	(message (format "ERROR: %s" compiled-file-err))))
 
 ;;============================================================================
 ;;============================================================================
@@ -553,6 +581,7 @@
   :ensure t
   :config
   (setq projectile-enable-caching t)
+  (setq projectile-require-project-root nil)
   (setq projectile-generic-command "find -L . -type f -print0")
  (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)

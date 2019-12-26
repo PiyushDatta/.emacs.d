@@ -393,9 +393,9 @@ Also affects 'linum-mode' background."
       (,monokai-256-class (:foreground ,monokai-256-yellow))))
 
    `(font-lock-type-face
-     ((,monokai-class (:foreground ,monokai-blue
+     ((,monokai-class (:foreground ,monokai-emphasis
                                    :italic nil))
-      (,monokai-256-class (:foreground ,monokai-256-blue
+      (,monokai-256-class (:foreground ,monokai-256-emphasis
                                         :italic nil))))
 
    `(font-lock-variable-name-face
