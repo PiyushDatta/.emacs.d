@@ -464,6 +464,12 @@
 (global-set-key (kbd "A-/") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
+;; Get formatted time to float seconds
+(defun format-time-to-seconds (curr-time-formatted)
+  "Get formatted time to float seconds"
+  (interactive)
+  (format "%.2f" (float-time curr-time-formatted)))
+
 ;; Compile and run any file depending on the file extension.
 (defun compile-and-run-file ()
   "Compile and run any file depending on the file extension."
@@ -473,6 +479,7 @@
   ;; run command based on the extension name
   (cond ((equal file-ext-name "el") (eval-buffer))
 		((equal file-ext-name "cpp") (compile-c-cpp-file buffer-file-name))
+		((equal file-ext-name "py") (compile-python-file buffer-file-name))
 		(t (message "Sorry, this file extention is not supported."))))
 (global-set-key (kbd "C-b") 'compile-and-run-file)
 (global-set-key (kbd "s-b") 'compile-and-run-file)
@@ -482,6 +489,7 @@
 (defun compile-c-cpp-file (curr-file-full-name)
   "Compile and run c/c++ code."
   (interactive)
+  (setq current-function-time (current-time))
   (setq curr-file-name (file-name-sans-extension (file-name-nondirectory curr-file-full-name)))
   (setq curr-file-dir (file-name-directory curr-file-full-name))
   (setq curr-file-out-dir (concat curr-file-dir "out"))
@@ -493,8 +501,7 @@
   (unless (file-exists-p curr-file-out-dir)
 	(make-directory curr-file-out-dir))
 
-  (setq compile-shell-command
-		(format "g++ -o %s %s" curr-file-out-full-name curr-file-full-name))
+  (setq compile-shell-command (format "g++ -o %s %s" curr-file-out-full-name curr-file-full-name))
 
   ;; Compile and execute the file
   (message (format "Compiling...%s" curr-file-full-name))
@@ -502,10 +509,24 @@
 
   (when (equal "" compiled-file-err)
 	(message (format "Compiled! Output file at %s" curr-file-out-full-name))
-	(message (shell-command-to-string curr-file-out-full-name)))
+	(message (format "%s (%s seconds)"(shell-command-to-string curr-file-out-full-name)
+					 (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
   (unless (equal "" compiled-file-err)
-	(message (format "ERROR: %s" compiled-file-err))))
+	(message (format "ERROR (%s seconds): %s"
+					 (format-time-to-seconds (time-subtract (current-time) current-function-time)) compiled-file-err))))
+
+;; Compile and run python code.
+(defun compile-python-file (curr-file-full-name)
+  "Compile and run python code."
+  (interactive)
+  (setq current-function-time (current-time))
+  (setq compile-shell-command (format "python %s" curr-file-full-name))
+
+  ;; Compile and execute the file
+  (message (format "Compiling and running...%s" curr-file-full-name))
+  (message (format "%s (%s seconds)" (shell-command-to-string compile-shell-command)
+				   (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
 ;;============================================================================
 ;;============================================================================
