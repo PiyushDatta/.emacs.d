@@ -9,4 +9,5 @@
 !/lisp
 !lisp/
 !lisp/*
+!custom-set-variables.el
 !README.md
