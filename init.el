@@ -87,68 +87,12 @@
   ;; ;; `benchmark-init/show-durations-tree' to show benchmark result
   ;; ;; }}
 
-  (require-init 'init-autoload)
+  ;; (require-init 'init-autoload)
   ;; `package-initialize' takes 35% of startup time
   ;; need check https://github.com/hlissner/doom-emacs/wiki/FAQ#how-is-dooms-startup-so-fast for solution
-  (require-init 'init-modeline)
-  (require-init 'init-utils)
-  (require-init 'init-elpa)
-  (require-init 'init-exec-path t) ;; Set up $PATH
+  ;; (require-init 'init-exec-path t) ;; Set up $PATH
   ;; Any file use flyspell should be initialized after init-spelling.el
-  (require-init 'init-spelling t)
-  (require-init 'init-gui-frames t)
-  (require-init 'init-uniquify t)
-  (require-init 'init-ibuffer t)
-  (require-init 'init-ivy)
-  (require-init 'init-hippie-expand)
-  (require-init 'init-windows)
-  (require-init 'init-markdown t)
-  (require-init 'init-javascript t)
-  (require-init 'init-org t)
-  (require-init 'init-css t)
-  (require-init 'init-python t)
-  (require-init 'init-ruby-mode t)
-  (require-init 'init-lisp t)
-  (require-init 'init-elisp t)
-  (require-init 'init-yasnippet t)
-  (require-init 'init-cc-mode t)
-  (require-init 'init-gud t)
-  (require-init 'init-linum-mode)
-  (require-init 'init-git t)
-  ;; (require-init 'init-gist)
-  (require-init 'init-gtags t)
-  (require-init 'init-clipboard)
-  (require-init 'init-ctags t)
-  (require-init 'init-bbdb t)
-  (require-init 'init-gnus t)
-  (require-init 'init-lua-mode t)
-  (require-init 'init-workgroups2 t) ; use native API in lightweight mode
-  (require-init 'init-term-mode t)
-  (require-init 'init-web-mode t)
-  (require-init 'init-company t)
-  (require-init 'init-chinese t) ;; cannot be idle-required
-  ;; need statistics of keyfreq asap
-  (require-init 'init-keyfreq t)
-  (require-init 'init-httpd t)
-
-  ;; projectile costs 7% startup time
-
-  ;; misc has some crucial tools I need immediately
-  (require-init 'init-essential)
-  (require-init 'init-misc t)
-
-  (require-init 'init-emacs-w3m t)
-  (require-init 'init-shackle t)
-  (require-init 'init-dired t)
-  (require-init 'init-writting t)
-  (require-init 'init-hydra) ; hotkey is required everywhere
-  ;; use evil mode (vi key binding)
-  (require-init 'init-evil) ; init-evil dependent on init-clipboard
-
-  ;; ediff configuration should be last so it can override
-  ;; the key bindings in previous configuration
-  (require-init 'init-ediff)
-
+  
   ;; Custom highlight numbers and highlight operators 
   (require-init 'init-parent-mode t)
   ;; inherits off of font-lock-keyword-face
@@ -501,9 +445,11 @@
   (unless (file-exists-p curr-file-out-dir)
 	(make-directory curr-file-out-dir))
 
-  (setq compile-shell-command (format "g++ -o %s %s" curr-file-out-full-name curr-file-full-name))
+  (setq compile-shell-command (format "clang++ -Wall -std=c++14 -o %s %s" curr-file-out-full-name curr-file-full-name))
 
   ;; Compile and execute the file
+  (message (format "Saving file: %s" curr-file-full-name))
+  (save-buffer curr-file-full-name)
   (message (format "Compiling...%s" curr-file-full-name))
   (setq compiled-file-err (shell-command-to-string compile-shell-command))
 
@@ -669,11 +615,11 @@
 ;; (use-package format-all
 ;;   :config
 ;;   (defun ian/format-code ()
-;;	"Auto-format whole buffer"
-;;	(interactive)
-;;	(if (derived-mode-p 'prolog-mode)
-;;		(prolog-indent-buffer)
-;;	  (format-all-buffer))))
+;; 	"Auto-format whole buffer"
+;; 	(interactive)
+;; 	(if (derived-mode-p 'prolog-mode)
+;; 		(prolog-indent-buffer)
+;; 	  (format-all-buffer))))
 
 (use-package lsp-mode
   :hook ((c-mode ; clangd
@@ -938,6 +884,25 @@ Elements of ALIST that are not conses are ignored."
     :config
     (add-hook 'irony-mode-hook #'irony-eldoc)
     ))
+
+;; flymake  with google for cpp
+(use-package flymake-cursor
+  :ensure t)
+(use-package flymake-google-cpplint
+  :ensure t
+  :init
+  :config
+  (add-hook 'c-mode-hook 'flymake-google-cpplint-load)
+  (add-hook 'c++-mode-hook 'flymake-google-cpplint-load)
+  (custom-set-variables
+   '(flymake-google-cpplint-command "C:/Users/PD/AppData/Local/Programs/Python/Python36/Scripts/cpplint")
+   '(flymake-google-cpplint-verbose "--verbose=0")
+   '(flymake-google-cpplint-filter "--filter=-whitespace/line_length,-build")))
+(use-package google-c-style
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook 'google-set-c-style)
+  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
 
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ;; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
