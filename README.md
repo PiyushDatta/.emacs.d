@@ -6,6 +6,17 @@ Git clone my configuration to your new `~/.emacs.d/` :
 git clone https://github.com/PiyushDatta/.emacs.d.git ~/.emacs.d
 ```
 
+```
+For windows, you need to cd into C:\Users\<user>\AppData\Roaming
+```
+
+# Dependancies
+ripgrep (rg) for projectile-ripgrep
+
+perl for markdown-mode (or you can use your own markdown executable by changing it in custom-set-variables.el)
+
+visual studio or your own clang for cpp code
+
 # Commands
 
 M-x:

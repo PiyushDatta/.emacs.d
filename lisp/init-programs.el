@@ -424,13 +424,13 @@
   (add-hook 'c-mode-common-hook 'google-make-newline-indent))
 
 ;; An extensible emacs startup screen showing you what’s most important
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 'logo
-        dashboard-banner-logo-title "Dangerously powerful"
-        dashboard-items nil
-        dashboard-set-footer nil))
+;; (use-package dashboard
+;;   :config
+;;   (dashboard-setup-startup-hook)
+;;   (setq dashboard-startup-banner 'logo
+;;         dashboard-banner-logo-title "Dangerously powerful"
+;;         dashboard-items nil
+;;         dashboard-set-footer nil))
 
 ;; mode lines customization (the toolbar at the bottom)
 ; (use-package smart-mode-line-atom-one-dark-theme)

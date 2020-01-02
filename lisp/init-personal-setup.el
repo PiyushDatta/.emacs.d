@@ -110,7 +110,7 @@
 (set-face-attribute 'default nil
           :family "consolas"
           ; :family "Source Code Pro"
-          :height 170
+          :height 140
           :weight 'normal
           :width 'normal)
 

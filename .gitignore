@@ -9,5 +9,8 @@
 !/lisp
 !lisp/
 !lisp/*
+!/extra-files
+!extra-files/
+!extra-files/*
 !custom-set-variables.el
 !README.md
