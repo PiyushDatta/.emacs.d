@@ -7,6 +7,11 @@
 
 ;; Map Alt key to Alt
 (setq w32-alt-is-meta nil)
+
+(global-set-key (kbd "C-x C-f")  (lambda () (interactive)
+                   (cd "~/.emacs.d")
+                   (call-interactively 'find-file)))
+
 ;; Set cua-mode for alt key as well
 (global-set-key (kbd "A-c") 'kill-ring-save)
 (global-set-key (kbd "A-x") 'kill-region)
@@ -56,7 +61,8 @@
 (global-set-key (kbd "C-S-p") 'projectile-switch-project)
 
 ;; find text in all files in project, same as pycharm/intelij keybind
-(global-set-key (kbd "C-S-f") 'projectile-multi-occur)
+;; (global-set-key (kbd "C-S-f") 'projectile-multi-occur)
+(global-set-key (kbd "C-S-f") 'projectile-ripgrep)
 
 ;; to go definition, dumb jump
 (global-set-key (kbd "<C-return>") 'dumb-jump-go)
@@ -109,6 +115,8 @@
 (define-key global-map (kbd "<A-left>") 'left-word)
 
 ;; for centaur tabs, scroll through the tabs
+(define-key global-map (kbd "C-<tab>") 'centaur-tabs-forward)
+(define-key global-map (kbd "C-S-<tab>") 'centaur-tabs-backward)
 (define-key global-map (kbd "s-q <right>") 'centaur-tabs-forward)
 (define-key global-map (kbd "s-q <left>") 'centaur-tabs-backward)
 (define-key global-map (kbd "A-q <right>") 'centaur-tabs-forward)
@@ -135,4 +143,7 @@
 (global-set-key (kbd "s-b") 'compile-and-run-file)
 (global-set-key (kbd "A-b") 'compile-and-run-file)
 
+;; counsel
+(global-set-key (kbd "C-x A-x") 'counsel-M-x)
+(global-set-key (kbd "C-x A-z") 'counsel-grep-or-swiper)
 ;;; init-personal-keybinds.el ends here

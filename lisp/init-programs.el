@@ -4,63 +4,9 @@
 
 ;;============================================================================
 ;;============================================================================
-;;==================********* INSTALL PACKAGES *********======================
-;;============================================================================
-;;============================================================================
-;;; remove SC if you are not using sunrise commander and org if you like outdated packages
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-
-;;; Bootstrapping use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-and-compile
-  (setq use-package-always-ensure t))
-
-
-;;============================================================================
-;;============================================================================
 ;;==================********* CUSTOM PACKAGES *********=======================
 ;;============================================================================
 ;;============================================================================
-
-;; startup page
-(use-package "startup"
-  :ensure nil
-  :config (setq inhibit-startup-screen t))
-
-;; window
-(use-package "window"
-  :ensure nil
-  :config
-  (defun ian/split-and-follow-horizontally ()
-	"Split window below."
-	(interactive)
-	(split-window-below)
-	(other-window 1))
-  (defun ian/split-and-follow-vertically ()
-	"Split window right."
-	(interactive)
-	(split-window-right)
-	(other-window 1))
-  (global-set-key (kbd "C-x 2") 'ian/split-and-follow-horizontally)
-  (global-set-key (kbd "C-x 3") 'ian/split-and-follow-vertically))
-
-;; delete selection
-(use-package delsel
-  :ensure nil
-  :config (delete-selection-mode +1))
-
-;; no confirm kill process
-(use-package files
-  :ensure nil
-  :config
-  (setq confirm-kill-processes nil))
 
 ;; performance, eldoc
 (use-package eldoc
@@ -70,6 +16,74 @@
   (global-eldoc-mode -1)
   (add-hook 'prog-mode-hook 'eldoc-mode)
   (setq eldoc-idle-delay 0.4))
+
+;; ivy, completion
+(use-package ivy
+  :diminish
+  :hook (after-init . ivy-mode)
+  :config
+  (setq ivy-display-style nil)
+  (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
+  (define-key ivy-minibuffer-map (kbd "<escape>") #'minibuffer-keyboard-quit)
+  (setq ivy-re-builders-alist
+        '((counsel-rg . ivy--regex-plus)
+          (counsel-projectile-rg . ivy--regex-plus)
+          (counsel-ag . ivy--regex-plus)
+          (counsel-projectile-ag . ivy--regex-plus)
+          (swiper . ivy--regex-plus)
+          (t . ivy--regex-fuzzy)))
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-initial-inputs-alist nil))
+
+(use-package ivy-posframe
+  :after ivy
+  :diminish
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+        ivy-posframe-height-alist '((t . 20))
+        ivy-posframe-parameters '((internal-border-width . 10)))
+  (setq ivy-posframe-width 70)
+  (ivy-posframe-mode +1))
+
+(use-package ivy-rich
+  :preface
+  (defun ivy-rich-switch-buffer-icon (candidate)
+    (with-current-buffer
+        (get-buffer candidate)
+      (all-the-icons-icon-for-mode major-mode)))
+  :init
+  (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
+        '(ivy-switch-buffer
+          (:columns
+           (
+            (ivy-rich-switch-buffer-icon (:width 2))
+            (ivy-rich-candidate (:width 35))
+            (ivy-rich-switch-buffer-project (:width 15 :face success))
+            (ivy-rich-switch-buffer-major-mode (:width 13 :face warning)))
+           :predicate
+           #'(lambda (cand) (get-buffer cand)))
+          counsel-M-x
+          (:columns
+           ((counsel-M-x-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+          counsel-describe-function
+          (:columns
+           ((counsel-describe-function-transformer (:width 35))
+            (ivy-rich-counsel-function-docstring (:width 34 :face font-lock-doc-face))))
+          counsel-describe-variable
+          (:columns
+           ((counsel-describe-variable-transformer (:width 35))
+            (ivy-rich-counsel-variable-docstring (:width 34 :face font-lock-doc-face))))
+          package-install
+          (:columns
+           ((ivy-rich-candidate (:width 25))
+            (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
+            (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
+            (ivy-rich-package-install-summary (:width 23 :face font-lock-doc-face))))))
+  :config
+  (ivy-rich-mode +1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 ;; projectile, search for files in directory
 (use-package projectile
@@ -217,7 +231,6 @@
 		centaur-tabs-modified-marker " ● "
 		centaur-tabs-cycle-scope 'tabs
 		centaur-tabs-height 30
-		centaur-tabs-set-icons t
 		centaur-tabs-close-button " × ")
   (centaur-tabs-change-fonts "consolas" 130)
   ;; (centaur-tabs-group-by-projectile-project)
@@ -262,29 +275,7 @@
 	  "OrgMode")
 	 (t
 	  (centaur-tabs-get-group-name (current-buffer))
-	  ))))  
-  :bind
-  ("C-S-<tab>" . centaur-tabs-backward)
-  ("C-<tab>" . centaur-tabs-forward)
-  )
-
-;; function so that treemacs toggle works
-(defun assoc-delete-all (key alist &optional test)
-  "Delete from ALIST all elements whose car is KEY.
-Compare keys with TEST.  Defaults to `equal'.
-Return the modified alist.
-Elements of ALIST that are not conses are ignored."
-  (unless test (setq test #'equal))
-  (while (and (consp (car alist))
-	      (funcall test (caar alist) key))
-    (setq alist (cdr alist)))
-  (let ((tail alist) tail-cdr)
-    (while (setq tail-cdr (cdr tail))
-      (if (and (consp (car tail-cdr))
-	       (funcall test (caar tail-cdr) key))
-	  (setcdr tail (cdr tail-cdr))
-	(setq tail tail-cdr))))
-  alist)
+	  )))))
 
 ;; treemacs
 (use-package treemacs
@@ -347,8 +338,8 @@ Elements of ALIST that are not conses are ignored."
 		("M-0"       . treemacs-select-window)
 		("C-x t 1"   . treemacs-delete-other-windows)
 		("C-x t t"   . treemacs)
-		("C-x t r"        . treemacs-toggle)
-        ("C-x t p"  . treemacs-projectile-toggle)
+		("C-x t r"   . treemacs-toggle)
+    ("C-x t p"   . treemacs-projectile-toggle)
 		("C-x t B"   . treemacs-bookmark)
 		("C-x t C-t" . treemacs-find-file)
 		("C-x t M-t" . treemacs-find-tag))
@@ -431,6 +422,57 @@ Elements of ALIST that are not conses are ignored."
   :config
   (add-hook 'c-mode-common-hook 'google-set-c-style)
   (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+
+;; An extensible emacs startup screen showing you what’s most important
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner 'logo
+        dashboard-banner-logo-title "Dangerously powerful"
+        dashboard-items nil
+        dashboard-set-footer nil))
+
+;; mode lines customization (the toolbar at the bottom)
+; (use-package smart-mode-line-atom-one-dark-theme)
+; (use-package smart-mode-line
+;   :config
+;   (when (member "Menlo" (font-family-list))
+;     (progn
+;       (set-face-attribute 'mode-line nil :height 120 :font "Menlo")
+;       (set-face-attribute 'mode-line-inactive nil :height 120 :font "Menlo")))
+;   (setq sml/no-confirm-load-theme t
+;         sml/theme 'atom-one-dark)
+;   (sml/setup))
+
+(use-package counsel
+  :diminish
+  :hook (ivy-mode . counsel-mode)
+  :config
+  (setq counsel-rg-base-command "rg --vimgrep %s"))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode +1))
+
+;; Simple but effective sorting and filtering for Emacs.
+(use-package prescient
+  :config
+  (setq prescient-filter-method '(literal regexp initialism fuzzy))
+  (prescient-persist-mode +1))
+
+(use-package ivy-prescient
+  :after (prescient ivy)
+  :config
+  (setq ivy-prescient-sort-commands
+        '(:not swiper counsel-grep ivy-switch-buffer))
+  (setq ivy-prescient-retain-classic-highlighting t)
+  (ivy-prescient-mode +1))
+
+(use-package company-prescient
+  :after (prescient company)
+  :config (company-prescient-mode +1))
+
+(use-package markdown-mode
+  :hook (markdown-mode . visual-line-mode))
 
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ;; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
