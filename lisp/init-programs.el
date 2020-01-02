@@ -92,11 +92,14 @@
   (setq projectile-enable-caching t)
   (setq projectile-require-project-root nil)
   (setq projectile-generic-command "find -L . -type f -print0")
- (setq projectile-completion-system 'ivy)
+  (setq projectile-current-project-on-switch 'keep)    
+  (setq projectile-completion-system 'ivy)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "A-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
+  (projectile-mode +1)
+  :custom
+  (projectile-current-project-on-switch 'keep))
 
 ;; python
 (use-package python
