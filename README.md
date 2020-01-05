@@ -11,11 +11,12 @@ For windows, you need to cd into C:\Users\<user>\AppData\Roaming
 ```
 
 # Dependancies
-ripgrep (rg) for projectile-ripgrep
+- ripgrep (rg) for projectile-ripgrep
+- clang for cpp code
 
-perl for markdown-mode (or you can use your own markdown executable by changing it in custom-set-variables.el)
-
-visual studio or your own clang for cpp code
+If you are on windows:
+- Visual Studio 2015 or 2017 for irony (when building server)
+- Perl for executing markdown (no markdown file needed, just perl)
 
 # Commands
 
