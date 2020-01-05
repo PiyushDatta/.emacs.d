@@ -108,23 +108,24 @@
   (setq curr-file-out-dir (concat curr-file-dir "out"))
   (setq curr-file-out-name (concat curr-file-name ".out"))
   (setq curr-file-out-full-name
-		(format "%s/%s" (concat curr-file-dir "out") (concat curr-file-name ".out")))
+		(format "'%s'/'%s'" (concat curr-file-dir "out") (concat curr-file-name ".out")))
 
   ;; create out directory
   (unless (file-exists-p curr-file-out-dir)
 	(make-directory curr-file-out-dir))
 
-  (setq compile-shell-command (format "clang++ -Wall -std=c++14 -o %s %s" curr-file-out-full-name curr-file-full-name))
+  (setq compile-shell-command (format "clang++ -Wall -std=c++14 -o %s '%s'" curr-file-out-full-name curr-file-full-name))
 
   ;; Compile and execute the file
   (message (format "Saving file: %s" curr-file-full-name))
   (save-buffer curr-file-full-name)
+  (message (format "Running command to compile: %s" compile-shell-command))
   (message (format "Compiling...%s" curr-file-full-name))
   (setq compiled-file-err (shell-command-to-string compile-shell-command))
 
   (when (equal "" compiled-file-err)
 	(message (format "Compiled! Output file at %s" curr-file-out-full-name))
-	(message (format "%s (%s seconds)"(shell-command-to-string curr-file-out-full-name)
+	(message (format "%s \n(%s seconds)"(shell-command-to-string curr-file-out-full-name)
 					 (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
   (unless (equal "" compiled-file-err)
@@ -136,11 +137,12 @@
   "Compile and run python code."
   (interactive)
   (setq current-function-time (current-time))
-  (setq compile-shell-command (format "python %s" curr-file-full-name))
+  (setq compile-shell-command (format "python '%s'" curr-file-full-name))
 
   ;; Compile and execute the file
+  (save-buffer curr-file-full-name)
   (message (format "Compiling and running...%s" curr-file-full-name))
-  (message (format "%s (%s seconds)" (shell-command-to-string compile-shell-command)
+  (message (format "%s(%s seconds)" (shell-command-to-string compile-shell-command)
 				   (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
 ;; function so that treemacs toggle works

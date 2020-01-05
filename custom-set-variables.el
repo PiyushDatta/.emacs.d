@@ -3,10 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;; '(markdown-command "e:/01A_PiyushExternal/ExternalPrograms/perl/perl/bin/perl.exe ~/.emacs.d/extra-files/Markdown.pl")
-'(markdown-command "e:/01A_PiyushExternal/ExternalPrograms/perl/perl/bin/perl.exe" "c:/Users/PD/AppData/Roaming/.emacs.d/extra-files/Markdown.pl")
- '(flymake-google-cpplint-command
-   "C:/Users/PD/AppData/Local/Programs/Python/Python36/Scripts/cpplint")
+ '(flymake-google-cpplint-command "cpplint")
  '(flymake-google-cpplint-filter "--filter=-whitespace/line_length,-build")
  '(flymake-google-cpplint-verbose "--verbose=0")
  '(package-selected-packages

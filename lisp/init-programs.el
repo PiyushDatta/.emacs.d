@@ -474,8 +474,18 @@
   :after (prescient company)
   :config (company-prescient-mode +1))
 
+;; for .md files
 (use-package markdown-mode
-  :hook (markdown-mode . visual-line-mode))
+  :mode (("\\.md" . markdown-mode))
+  :config
+  (setq markdown-css-paths '("~/.emacs.d/extra-files/markdown.css"))
+  (add-hook 'markdown-mode-hook
+            '(lambda ()
+               (cond ((eq *win64* t) "perl ~/.emacs.d/extra-files/Markdown.pl")
+                            (t markdown-command "markdown")))))
+
+;; Configuring visual-line-mode for markdown mode
+(add-hook 'markdown-mode-hook 'visual-line-mode)
 
 ;; lightweight syntax highlighting improvement for numbers, operators, and escape sequences
 ;; (use-package highlight-numbers :hook (prog-mode . highlight-numbers-mode))
