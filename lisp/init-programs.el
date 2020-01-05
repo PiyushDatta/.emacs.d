@@ -415,11 +415,8 @@
   :init
   :config
   (add-hook 'c-mode-hook 'flymake-google-cpplint-load)
-  (add-hook 'c++-mode-hook 'flymake-google-cpplint-load)
-  (custom-set-variables
-   '(flymake-google-cpplint-command "C:/Users/PD/AppData/Local/Programs/Python/Python36/Scripts/cpplint")
-   '(flymake-google-cpplint-verbose "--verbose=0")
-   '(flymake-google-cpplint-filter "--filter=-whitespace/line_length,-build")))
+  (add-hook 'c++-mode-hook 'flymake-google-cpplint-load))
+
 (use-package google-c-style
   :ensure t
   :config
