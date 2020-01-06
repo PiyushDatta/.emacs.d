@@ -7,7 +7,7 @@ git clone https://github.com/PiyushDatta/.emacs.d.git ~/.emacs.d
 ```
 
 ```
-For windows, you need to cd into C:\Users\<user>\AppData\Roaming
+For windows: git clone https://github.com/PiyushDatta/.emacs.d.git C:/Users/<user>/AppData/Roaming/.emacs.d
 ```
 
 # Dependancies
