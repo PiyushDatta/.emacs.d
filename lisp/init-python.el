@@ -58,4 +58,4 @@
   :ensure t
   :config (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
-;;; init-programs.el ends here
+;;; init-python.el ends here
