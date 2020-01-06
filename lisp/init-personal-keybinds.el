@@ -131,6 +131,7 @@
 
 ;; Make tab, always insert tab and untab with shift+tab as well, set to 4-spaces right now
 (global-set-key (kbd "<S-tab>") 'untab-region)
+(global-set-key (kbd "<backtab>") 'untab-region)
 (global-set-key (kbd "<tab>") 'tab-region)
 
 ;; comment or uncomment region/line
@@ -147,3 +148,4 @@
 (global-set-key (kbd "C-x A-x") 'counsel-M-x)
 (global-set-key (kbd "C-x A-z") 'counsel-grep-or-swiper)
 ;;; init-personal-keybinds.el ends here
+
