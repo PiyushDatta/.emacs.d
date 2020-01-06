@@ -47,6 +47,9 @@
   ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
   (setq gud-pdb-command-name "python3 -m pdb "))
 
+;; turn of indenation mode for elpy
+(add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+
 ;; python flycheck
 (use-package flycheck-pyflakes
   :ensure t

@@ -102,15 +102,19 @@
 ;;=======================================================================================
 ;;=======================================================================================
   
-  ;; Custom highlight numbers and highlight operators 
+  ;; Custom highlight numbers, highlight operators, and highlight indent guides (the vertical lines shown for indents) 
   (require-init 'init-parent-mode t)
   ;; inherits off of font-lock-keyword-face
   (require-init 'init-highlight-operators-custom t)
   ;; inherits off of font-lock-regexp-grouping-backslash
   (require-init 'init-highlight-numbers-custom t)
-  ;; turn both highlights for all programming buffers
+  ;; inherits off of font-lock-keyword-face
+  (require-init 'highlight-indent-guides t)
+  ;; turn highlights for all programming buffers
   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
   (add-hook 'prog-mode-hook 'highlight-operators-mode)
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character)
 
   ;; personal setup/ui
   (require-init 'init-personal-setup t)
