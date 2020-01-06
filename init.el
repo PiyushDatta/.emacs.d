@@ -117,8 +117,10 @@
   ;; personal functions
   (require-init 'init-personal-functions t)
   ;; personal custom (melpa and other) programs
+  ;; (require-init 'init-programs-test t)
   (require-init 'init-programs t)
-  ; (require-init 'init-programs-test t)
+  ;; python programs
+  (require-init 'init-python t)
   ;; personal keybinds
   (require-init 'init-personal-keybinds t)
 

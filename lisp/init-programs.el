@@ -101,11 +101,6 @@
   :custom
   (projectile-current-project-on-switch 'keep))
 
-;; python
-(use-package python
-  :ensure nil
-  :config (setq python-indent-offset 4))
-
 ;; mouse wheel speed
 (use-package mwheel
   :ensure nil
