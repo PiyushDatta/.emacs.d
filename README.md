@@ -13,6 +13,7 @@ For windows: git clone https://github.com/PiyushDatta/.emacs.d.git C:/Users/<use
 # Dependancies
 - ripgrep (rg) for projectile-ripgrep
 - clang for cpp code
+- run: pip install python-language-server[all]
 
 If you are on windows:
 - Visual Studio 2015 or 2017 for irony (when building server)
