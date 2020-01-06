@@ -110,11 +110,20 @@
   (require-init 'init-highlight-numbers-custom t)
   ;; inherits off of font-lock-keyword-face
   (require-init 'highlight-indent-guides t)
+
   ;; turn highlights for all programming buffers
   (add-hook 'prog-mode-hook 'highlight-numbers-mode)
   (add-hook 'prog-mode-hook 'highlight-operators-mode)
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
   (setq highlight-indent-guides-method 'character)
+  ;; (setq highlight-indent-guides-responsive 'top)
+  (setq highlight-indent-guides-delay 0)
+  ;; Don't display first level of indentation
+  (defun +indent-guides-for-all-but-first-column (level responsive display)
+    (unless (< level 1)
+      (highlight-indent-guides--highlighter-default level responsive display)))
+  (setq highlight-indent-guides-highlighter-function #'+indent-guides-for-all-but-first-column)
 
   ;; personal setup/ui
   (require-init 'init-personal-setup t)
