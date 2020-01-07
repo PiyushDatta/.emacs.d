@@ -94,9 +94,9 @@
   (setq file-ext-name (file-name-extension buffer-file-name))
   ;; run command based on the extension name
   (cond ((equal file-ext-name "el") (eval-buffer))
-		((equal file-ext-name "cpp") (compile-c-cpp-file buffer-file-name))
-		((equal file-ext-name "py") (compile-python-file buffer-file-name))
-		(t (message "Sorry, this file extention is not supported."))))
+    ((equal file-ext-name "cpp") (compile-c-cpp-file buffer-file-name))
+    ((equal file-ext-name "py") (compile-python-file buffer-file-name))
+    (t (message "Sorry, this file extention is not supported."))))
 
 ;; Compile and run c/c++ code.
 (defun compile-c-cpp-file (curr-file-full-name)
@@ -108,13 +108,19 @@
   (setq curr-file-out-dir (concat curr-file-dir "out"))
   (setq curr-file-out-name (concat curr-file-name ".out"))
   (setq curr-file-out-full-name
-		(format "'%s'/'%s'" (concat curr-file-dir "out") (concat curr-file-name ".out")))
+    (format "'%s'/'%s'" (concat curr-file-dir "out") (concat curr-file-name ".out")))
 
   ;; create out directory
   (unless (file-exists-p curr-file-out-dir)
-	(make-directory curr-file-out-dir))
+  (make-directory curr-file-out-dir))
 
   (setq compile-shell-command (format "clang++ -Wall -std=c++14 -o %s '%s'" curr-file-out-full-name curr-file-full-name))
+  (setq clang-format-dump-config-command "clang-format -style=google -dump-config > .clang-format")
+  
+  ;; Format file
+  (message "Formatting file using clang-format")
+  (message (shell-command-to-string clang-format-dump-config-command))
+  (clang-format-region (point-min) (point-max) "Google" curr-file-full-name)
 
   ;; Compile and execute the file
   (message (format "Saving file: %s" curr-file-full-name))
@@ -124,13 +130,13 @@
   (setq compiled-file-err (shell-command-to-string compile-shell-command))
 
   (when (equal "" compiled-file-err)
-	(message (format "Compiled! Output file at %s" curr-file-out-full-name))
-	(message (format "%s \n(%s seconds)"(shell-command-to-string curr-file-out-full-name)
-					 (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
+  (message (format "Compiled! Output file at %s" curr-file-out-full-name))
+  (message (format "%s \n(%s seconds)"(shell-command-to-string curr-file-out-full-name)
+           (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
   (unless (equal "" compiled-file-err)
-	(message (format "ERROR (%s seconds): %s"
-					 (format-time-to-seconds (time-subtract (current-time) current-function-time)) compiled-file-err))))
+  (message (format "ERROR (%s seconds): %s"
+           (format-time-to-seconds (time-subtract (current-time) current-function-time)) compiled-file-err))))
 
 ;; Compile and run python code.
 (defun compile-python-file (curr-file-full-name)
@@ -143,7 +149,7 @@
   (save-buffer curr-file-full-name)
   (message (format "Compiling and running...%s" curr-file-full-name))
   (message (format "%s(%s seconds)" (shell-command-to-string compile-shell-command)
-				   (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
+           (format-time-to-seconds (time-subtract (current-time) current-function-time)))))
 
 ;; function so that treemacs toggle works
 (defun assoc-delete-all (key alist &optional test)
