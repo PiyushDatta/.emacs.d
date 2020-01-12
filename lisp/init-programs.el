@@ -150,7 +150,7 @@
 
 (use-package flx-ido :config (flx-ido-mode +1))
 
-(use-package magit :bind ("C-x g" . magit-status))
+(use-package magit)
 
 ;; (use-package format-all
 ;;   :config

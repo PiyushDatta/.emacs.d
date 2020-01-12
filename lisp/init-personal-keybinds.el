@@ -147,5 +147,9 @@
 ;; counsel
 (global-set-key (kbd "C-x A-x") 'counsel-M-x)
 (global-set-key (kbd "C-x A-z") 'counsel-grep-or-swiper)
+
+;;magit
+(global-set-key (kbd "C-x C-g") 'magit-status)
+
 ;;; init-personal-keybinds.el ends here
 
