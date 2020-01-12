@@ -3,7 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-save-interval 1000)
+ '(auto-save-interval 300)
  '(flymake-google-cpplint-command "cpplint")
  '(flymake-google-cpplint-filter "--filter=-whitespace/line_length,-build")
  '(flymake-google-cpplint-verbose "--verbose=0")
