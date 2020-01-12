@@ -305,10 +305,10 @@
   :config
   (progn
     (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay      0.5
+          treemacs-deferred-git-apply-delay      0
           treemacs-display-in-side-window        t
           treemacs-eldoc-display                 t
-          treemacs-file-event-delay              5000
+          treemacs-file-event-delay              50
           treemacs-file-extension-regex          treemacs-last-period-regex-value
           treemacs-file-follow-delay             0.2
           treemacs-follow-after-init             t
@@ -329,7 +329,7 @@
           treemacs-recenter-after-tag-follow     nil
           treemacs-recenter-after-project-jump   'always
           treemacs-recenter-after-project-expand 'on-distance
-          treemacs-show-cursor                   nil
+          treemacs-show-cursor                   t
           treemacs-show-hidden-files             t
           treemacs-silent-refresh                nil
           treemacs-sorting                       'alphabetic-desc
