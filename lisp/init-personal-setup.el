@@ -1,4 +1,4 @@
-;;; init-personal-setup.el 
+;; init-personal-setup.el
 
 ;;; Code:
 
@@ -97,7 +97,7 @@
 ;; create themes directory
 (let ((themes-dir (concat default-directory "/.emacs.d/themes")))
   (unless (file-exists-p themes-dir)
-  (make-directory themes-dir)))
+    (make-directory themes-dir)))
 
 ;; Load theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -108,11 +108,11 @@
 
 ;; Set default font
 (set-face-attribute 'default nil
-          :family "consolas"
-          ; :family "Source Code Pro"
-          :height 170
-          :weight 'normal
-          :width 'normal)
+                    :family "consolas"
+                                        ; :family "Source Code Pro"
+                    :height 170
+                    :weight 'normal
+                    :width 'normal)
 
 ;; show column number in mode-line
 (column-number-mode +1)
@@ -128,5 +128,8 @@
 
 ;; auto refresh dired when file changes
 (add-hook 'dired-mode-hook 'auto-revert-mode)
+
+;; Make fringe half-width
+(fringe-mode '(4 . 4))
 
 ;;; init-personal-setup.el ends here

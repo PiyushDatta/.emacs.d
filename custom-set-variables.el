@@ -16,7 +16,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cursor ((t (:background "#eeaf2c"))))
- '(diff-hl-change ((t (:foreground "#99bbdd" :background nil))))
- '(diff-hl-delete ((t (:foreground "#ff6666" :background nil))))
- '(diff-hl-insert ((t (:foreground "#55bb55" :background nil))))
  '(swiper-line-face ((t (:foreground "#ffffff" :background "#60648E")))))

@@ -153,6 +153,27 @@
 ;; using git inside of emacs
 (use-package magit)
 
+;; highlighting changes through version control
+(use-package diff-hl
+  :ensure t
+  :init
+  ;; change colors
+  (custom-set-faces
+   ;; change colours
+   '(diff-hl-change ((t (:background "#6897BB"))))
+   '(diff-hl-insert ((t (:background "#0A7700"))))
+   '(diff-hl-delete ((t (:background "#6C6C6C")))))
+  ;; On-the-fly diff updates
+  (diff-hl-flydiff-mode)
+  ;; Enable diff-hl globally
+  (global-diff-hl-mode 1)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  :config
+  ;; to have symbols, like '+'
+  ;; (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
+  (setq diff-hl-margin-side 'left))
+
 ;; format-all
 (use-package format-all
   :ensure t
