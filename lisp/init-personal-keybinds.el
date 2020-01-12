@@ -1,4 +1,4 @@
-;;; init-personal-keybinds.el 
+;;; init-personal-keybinds.el
 
 ;;; Code:
 
@@ -9,8 +9,8 @@
 (setq w32-alt-is-meta nil)
 
 (global-set-key (kbd "C-x C-f")  (lambda () (interactive)
-                   (cd "~/.emacs.d")
-                   (call-interactively 'find-file)))
+                                   (cd "~/.emacs.d")
+                                   (call-interactively 'find-file)))
 
 ;; Set cua-mode for alt key as well
 (global-set-key (kbd "A-c") 'kill-ring-save)
@@ -46,7 +46,7 @@
 (global-set-key (kbd "s-f") 'swiper)
 (global-set-key (kbd "A-f") 'swiper)
 
-;; turn off shortcut to create a new frame, so it doesn't collide with keybind below 
+;; turn off shortcut to create a new frame, so it doesn't collide with keybind below
 (global-set-key (kbd "s-n") nil)
 (global-set-key (kbd "A-n") nil)
 
@@ -79,8 +79,8 @@
 (define-key global-map (kbd "A-1") 'prev-window)
 (define-key global-map (kbd "A-2") 'other-window)
 (define-key global-map (kbd "A-3") 'other-window)
-  
-;; turn of alt/cmd-w 
+
+;; turn of alt/cmd-w
 (global-set-key (kbd "s-w") nil)
 (global-set-key (kbd "A-w") nil)
 
@@ -155,4 +155,3 @@
 (global-set-key (kbd "A-a") 'mark-whole-buffer)
 
 ;;; init-personal-keybinds.el ends here
-

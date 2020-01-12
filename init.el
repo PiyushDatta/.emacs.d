@@ -13,7 +13,7 @@
 
 (let* ((minver "24.4"))
   (when (version< emacs-version minver)
-  (error "Emacs v%s or higher is required." minver)))
+    (error "Emacs v%s or higher is required." minver)))
 
 (defvar best-gc-cons-threshold
   4000000
@@ -28,7 +28,7 @@
 ;; https://bugs.debian.org/766397
 (eval-after-load "enriched"
   '(defun enriched-decode-display-prop (start end &optional param)
-   (list start end)))
+     (list start end)))
 ;; }}
 ;;----------------------------------------------------------------------------
 ;; Which functionality to enable (use t or nil for true and false)
@@ -42,10 +42,10 @@
 (setq *emacs25* (>= emacs-major-version 25))
 (setq *emacs26* (>= emacs-major-version 26))
 (setq *no-memory* (cond
-           (*is-a-mac*
-          (< (string-to-number (nth 1 (split-string (shell-command-to-string "sysctl hw.physmem")))) 4000000000))
-           (*linux* nil)
-           (t nil)))
+                   (*is-a-mac*
+                    (< (string-to-number (nth 1 (split-string (shell-command-to-string "sysctl hw.physmem")))) 4000000000))
+                   (*linux* nil)
+                   (t nil)))
 
 ;; @see https://www.reddit.com/r/emacs/comments/55ork0/is_emacs_251_noticeably_slower_than_245_on_windows/
 ;; Emacs 25 does gc too frequently
@@ -58,22 +58,22 @@
 (defun require-init (pkg &optional maybe-disabled)
   "Load PKG if MAYBE-DISABLED is nil or it's nil but start up in normal slowly."
   (when (or (not maybe-disabled) (not (boundp 'startup-now)))
-  (load (file-truename (format "~/.emacs.d/lisp/%s" pkg)) t t)))
+    (load (file-truename (format "~/.emacs.d/lisp/%s" pkg)) t t)))
 
 (defun local-require (pkg)
   (unless (featurep pkg)
-  (load (expand-file-name
-       (cond
-      ((eq pkg 'go-mode-load)
-       (format "~/.emacs.d/site-lisp/go-mode/%s" pkg))
-      (t
-       (format "~/.emacs.d/site-lisp/%s/%s" pkg pkg))))
-      t t)))
+    (load (expand-file-name
+           (cond
+            ((eq pkg 'go-mode-load)
+             (format "~/.emacs.d/site-lisp/go-mode/%s" pkg))
+            (t
+             (format "~/.emacs.d/site-lisp/%s/%s" pkg pkg))))
+          t t)))
 
 ;; *Message* buffer should be writable in 24.4+
 (defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
   (if (string= "*Messages*" (buffer-name))
-    (read-only-mode -1)))
+      (read-only-mode -1)))
 
 ;; @see https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; Normally file-name-handler-alist is set to
@@ -96,13 +96,13 @@
   ;; (require-init 'init-exec-path t) ;; Set up $PATH
   ;; Any file use flyspell should be initialized after init-spelling.el
 
-;;=======================================================================================
-;;=======================================================================================
-;;==================********* INITIALIZE OTHER FILES *********===========================
-;;=======================================================================================
-;;=======================================================================================
-  
-  ;; Custom highlight numbers, highlight operators, and highlight indent guides (the vertical lines shown for indents) 
+  ;;=======================================================================================
+  ;;=======================================================================================
+  ;;==================********* INITIALIZE OTHER FILES *********===========================
+  ;;=======================================================================================
+  ;;=======================================================================================
+
+  ;; Custom highlight numbers, highlight operators, and highlight indent guides (the vertical lines shown for indents)
   (require-init 'init-parent-mode t)
   ;; inherits off of font-lock-keyword-face
   (require-init 'init-highlight-operators-custom t)
@@ -138,11 +138,11 @@
   (require-init 'init-personal-keybinds t)
 
 
-;;=======================================================================================
-;;=======================================================================================
-;;==========================********* OTHER *********====================================
-;;=======================================================================================
-;;=======================================================================================
+  ;;=======================================================================================
+  ;;=======================================================================================
+  ;;==========================********* OTHER *********====================================
+  ;;=======================================================================================
+  ;;=======================================================================================
 
   ;; @see https://github.com/hlissner/doom-emacs/wiki/FAQ
   ;; Adding directories under "site-lisp/" to `load-path' slows
@@ -152,23 +152,23 @@
 
   ;; create site-lisp directory
   (let ((sitelisp-dir "~/.emacs.d/site-lisp/"))
-  (unless (file-exists-p sitelisp-dir)
-    (make-directory sitelisp-dir)))
+    (unless (file-exists-p sitelisp-dir)
+      (make-directory sitelisp-dir)))
 
   (unless (boundp 'startup-now)
-  ;; my personal setup, other major-mode specific setup need it.
-  ;; It's dependent on "~/.emacs.d/site-lisp/*.el"
-  (load (expand-file-name "~/.custom.el") t nil)
+    ;; my personal setup, other major-mode specific setup need it.
+    ;; It's dependent on "~/.emacs.d/site-lisp/*.el"
+    (load (expand-file-name "~/.custom.el") t nil)
 
-  ;; @see https://www.reddit.com/r/emacs/comments/4q4ixw/how_to_forbid_emacs_to_touch_configuration_files/
-  ;; See `custom-file' for details.
-  (load (setq custom-file (expand-file-name "~/.emacs.d/custom-set-variables.el")) t t)))
+    ;; @see https://www.reddit.com/r/emacs/comments/4q4ixw/how_to_forbid_emacs_to_touch_configuration_files/
+    ;; See `custom-file' for details.
+    (load (setq custom-file (expand-file-name "~/.emacs.d/custom-set-variables.el")) t t)))
 
 (setq gc-cons-threshold best-gc-cons-threshold)
 
 (when (require 'time-date nil t)
   (message "Emacs startup time: %d seconds."
-       (time-to-seconds (time-since emacs-load-start-time))))
+           (time-to-seconds (time-since emacs-load-start-time))))
 
 ;;; Local Variables:
 ;;; no-byte-compile: t
