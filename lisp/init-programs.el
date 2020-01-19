@@ -448,14 +448,6 @@
   ;; clang-format -style=google -dump-config > .clang-format
   (setq clang-format-style-option "google"))
 
-;; Format c++ code everytime we save
-(defun cpp-save-hook()
-  "Save cpp files with format"
-  (setq file-ext-name (file-name-extension buffer-file-name))
-  (when (equal file-ext-name "cpp")
-    (clang-format-buffer)))
-(add-hook 'before-save-hook 'cpp-save-hook)
-
 ;; An extensible emacs startup screen showing you what’s most important
 ;; (use-package dashboard
 ;;   :config

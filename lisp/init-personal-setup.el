@@ -108,8 +108,8 @@
 
 ;; Set default font
 (set-face-attribute 'default nil
-                    :family "consolas"
-                                        ; :family "Source Code Pro"
+                    ;; :family "consolas"
+                    :family "Source Code Pro"
                     :height 170
                     :weight 'normal
                     :width 'normal)
@@ -129,7 +129,7 @@
 ;; auto refresh dired when file changes
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
-;; Make fringe half-width
-(fringe-mode '(4 . 4))
+;; fringe sizing
+(fringe-mode '(4 . 0))
 
 ;;; init-personal-setup.el ends here

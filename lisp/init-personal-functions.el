@@ -188,4 +188,13 @@ If the new path's directories does not exist, create them."
   )
 (setq make-backup-file-name-function 'my-backup-file-name)
 
+
+;; Format c++ code everytime we save
+(defun cpp-save-hook()
+  "Save cpp files with format"
+  (setq file-ext-name (file-name-extension buffer-file-name))
+  (when (or (equal file-ext-name "cpp") (equal file-ext-name "cc") (equal file-ext-name "h") (equal file-ext-name "hh") (equal file-ext-name "hpp"))
+    (clang-format-buffer)))
+(add-hook 'before-save-hook 'cpp-save-hook)
+
 ;;; init-personal-functions.el ends here
