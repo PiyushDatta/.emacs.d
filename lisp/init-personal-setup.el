@@ -132,4 +132,7 @@
 ;; fringe sizing
 (fringe-mode '(4 . 0))
 
+;; add header files to c++ mode
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;;; init-personal-setup.el ends here

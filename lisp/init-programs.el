@@ -174,13 +174,6 @@
   ;; (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
   (setq diff-hl-margin-side 'left))
 
-;; format-all
-(use-package format-all
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'format-all-mode)
-  (add-hook 'after-change-major-mode-hook 'format-all-mode))
-
 (use-package lsp-mode
   :hook ((c-mode ; clangd
           c-or-c++-mode ; clangd

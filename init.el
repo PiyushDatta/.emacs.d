@@ -125,6 +125,11 @@
       (highlight-indent-guides--highlighter-default level responsive display)))
   (setq highlight-indent-guides-highlighter-function #'+indent-guides-for-all-but-first-column)
 
+  ;; format-all
+  (require-init 'format-all-mode t)
+  (add-hook 'python-mode 'format-all-mode)
+  (add-hook 'before-save-hook 'format-all-mode)
+
   ;; personal setup/ui
   (require-init 'init-personal-setup t)
   ;; personal functions
