@@ -127,7 +127,7 @@
 
   ;; format-all
   (require-init 'format-all-mode t)
-  (add-hook 'python-mode 'format-all-mode)
+  (add-hook 'prog-mode 'format-all-mode)
   (add-hook 'before-save-hook 'format-all-mode)
 
   ;; personal setup/ui

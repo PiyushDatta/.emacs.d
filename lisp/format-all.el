@@ -393,7 +393,7 @@ Consult the existing formatters for examples of BODY."
   (:format (format-all--buffer-easy executable)))
 
 (define-format-all-formatter clang-format
-  (:executable "clang-format")
+  (:executable "clang-format -style=google -dump-config > .clang-format")
   (:install
    (macos "brew install clang-format")
    (windows "scoop install llvm"))
