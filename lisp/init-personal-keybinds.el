@@ -8,9 +8,13 @@
 ;; Map Alt key to Alt
 (setq w32-alt-is-meta nil)
 
+;; Find file(s)
 (global-set-key (kbd "C-x C-f")  (lambda () (interactive)
                                    (cd "~/.emacs.d")
-                                   (call-interactively 'find-file)))
+                                   (call-interactively 'helm-find-files)))
+
+;; Emacs commands (M-x)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Set cua-mode for alt key as well
 (global-set-key (kbd "A-c") 'kill-ring-save)

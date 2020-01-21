@@ -55,6 +55,18 @@
   :ensure nil
   :config (setq inhibit-startup-screen t))
 
+
+;; If at end of line, insert character pair without surrounding spaces. Otherwise, just insert the typed character.
+(use-package elec-pair
+  :ensure nil
+  :config (add-hook 'prog-mode-hook 'electric-pair-mode))
+
+;; mouse wheel speed
+(use-package mwheel
+  :ensure nil
+  :config (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+                mouse-wheel-progressive-speed nil))
+
 ;; window
 ;; (use-package "window"
 ;;  :ensure nil

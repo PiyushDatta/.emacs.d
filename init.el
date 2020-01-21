@@ -102,6 +102,19 @@
   ;;=======================================================================================
   ;;=======================================================================================
 
+  ;;==================********* Personal *********===========================
+  (require-init 'init-personal-setup t)
+  ;; personal functions
+  (require-init 'init-personal-functions t)
+  ;; personal custom (melpa and other) programs
+  ;; (require-init 'init-programs-test t)
+  (require-init 'init-programs t)
+  ;; for visual/ui
+  (require-init 'init-visual-ui t)
+  ;; personal keybinds
+  (require-init 'init-personal-keybinds t)
+
+  ;;==================********* Highlights *********===========================
   ;; Custom highlight numbers, highlight operators, and highlight indent guides (the vertical lines shown for indents)
   (require-init 'init-parent-mode t)
   ;; inherits off of font-lock-keyword-face
@@ -125,23 +138,15 @@
       (highlight-indent-guides--highlighter-default level responsive display)))
   (setq highlight-indent-guides-highlighter-function #'+indent-guides-for-all-but-first-column)
 
-  ;; format-all
+  ;;==================********* Format all *********===========================
   (require-init 'format-all-mode t)
-  (add-hook 'prog-mode 'format-all-mode)
-  (add-hook 'before-save-hook 'format-all-mode)
+  ;; (add-hook 'prog-mode 'format-all-mode)
+  ;; (add-hook 'before-save-hook 'format-all-mode)
 
-  ;; personal setup/ui
-  (require-init 'init-personal-setup t)
-  ;; personal functions
-  (require-init 'init-personal-functions t)
-  ;; personal custom (melpa and other) programs
-  ;; (require-init 'init-programs-test t)
-  (require-init 'init-programs t)
-  ;; python programs
+  ;;==================********* Languages *********===========================
   (require-init 'init-python t)
-  ;; personal keybinds
-  (require-init 'init-personal-keybinds t)
-
+  (require-init 'init-c-cpp t)
+  (require-init 'init-web-lang t)
 
   ;;=======================================================================================
   ;;=======================================================================================
