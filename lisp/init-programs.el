@@ -26,10 +26,10 @@
 
 ;; projectile with helm
 (use-package helm-projectile
-        :ensure t
-        :init
-        (helm-projectile-on)
-        (setq projectile-switch-project-action 'helm-projectile))
+  :ensure t
+  :init
+  (helm-projectile-on)
+  (setq projectile-switch-project-action 'helm-projectile))
 
 ;; swiper with helm backend
 (use-package swiper-helm
@@ -127,11 +127,6 @@
   :diminish company-mode
   :hook (prog-mode . company-mode)
   :config
-  ;; for c++ header files
-  (use-package company-c-headers
-    :ensure t
-    :init
-    (add-to-list 'company-backends 'company-c-headers))
   (setq company-minimum-prefix-length 1
         company-idle-delay 0.1
         company-selection-wrap-around t

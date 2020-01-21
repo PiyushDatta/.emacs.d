@@ -17,24 +17,32 @@
   :hook ((c++-mode . irony-mode)
          (c-mode . irony-mode))
   :config
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  (use-package company-irony-c-headers
-    :ensure t)
-  (use-package company-irony
-    :ensure t
-    :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+(use-package company-irony
+  :commands (company-irony
+             company-irony-setup)
+  :hook ((c++-mode . company-irony-setup)
+         (c-mode . company-irony-setup)
+         (objc-mode . company-irony-setup))
+  :config
+  (defun company-irony-setup ()
+    "Add company-irony to company-backends buffer-locally."
     (add-to-list (make-local-variable 'company-backends)
-                 '(company-irony company-irony-c-headers)))
-  (use-package flycheck-irony
-    :ensure t
-    :config
-    (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
-    )
-  (use-package irony-eldoc
-    :ensure t
-    :config
-    (add-hook 'irony-mode-hook #'irony-eldoc)
-    ))
+                 'company-irony)))
+
+(use-package flycheck-irony
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(use-package irony-eldoc
+  :ensure t
+  :config
+  (add-hook 'irony-mode-hook #'irony-eldoc))
 
 ;; flymake with google for cpp
 (use-package flymake-google-cpplint
@@ -60,5 +68,18 @@
   ;; Create clang-format file using google style
   ;; clang-format -style=google -dump-config > .clang-format
   (setq clang-format-style-option "google"))
+
+
+;; for c++ header files
+(use-package company-c-headers
+  :ensure t
+  :hook ((c++-mode . company-c-headers-setup)
+         (c-mode . company-c-headers-setup)
+         (objc-mode . company-c-headers-setup))
+  :config
+  (defun company-c-headers-setup ()
+    "Add company-c-headers to company-backends buffer-locally."
+    (add-to-list (make-local-variable 'company-backends)
+                 'company-c-headers)))
 
 ;;; init-c-cpp.el ends here
