@@ -138,10 +138,15 @@
       (highlight-indent-guides--highlighter-default level responsive display)))
   (setq highlight-indent-guides-highlighter-function #'+indent-guides-for-all-but-first-column)
 
-  ;;==================********* Format all *********===========================
+  ;;==================********* External *********===========================
+  ;; format the code
   (require-init 'format-all-mode t)
   ;; (add-hook 'prog-mode 'format-all-mode)
   ;; (add-hook 'before-save-hook 'format-all-mode)
+  ;; go to definitions
+  (require-init 'dumb-jump t)
+  (setq dumb-jump-selector 'helm)
+  (setq dumb-jump-force-searcher 'rg)
 
   ;;==================********* Languages *********===========================
   (require-init 'init-python t)

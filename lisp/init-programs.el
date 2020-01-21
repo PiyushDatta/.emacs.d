@@ -156,11 +156,6 @@
                 (when (equal my-company-point (point))
                   (yas-expand)))))
 
-;; go-to definitions
-(use-package dumb-jump
-  :config (setq dumb-jump-selector 'helm)
-  :ensure)
-
 ;; flymake error/warning by hovering over it
 (use-package flymake-cursor
   :ensure t)
