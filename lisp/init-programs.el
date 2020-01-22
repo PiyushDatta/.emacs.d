@@ -21,9 +21,17 @@
 (use-package helm
   :ensure t
   :config
-  (setq helm-M-x-fuzzy-match t)
-  (helm-mode 1))
-
+  (setq helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
+        helm-quick-update t ; do not display invisible candidates
+        helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
+        helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
+        helm-show-completion-display-function #'helm-show-completion-default-display-function
+        helm-split-window-default-side 'below ;; open helm buffer in another window
+        helm-split-window-inside-p t ;; open helm buffer inside current window, not occupy whole other window
+        helm-candidate-number-limit 200 ; limit the number of displayed canidates
+        helm-move-to-line-cycle-in-source nil ; move to end or beginning of source when reaching top or bottom of source.
+        )
+  )
 ;; projectile with helm
 (use-package helm-projectile
   :ensure t
@@ -124,18 +132,23 @@
 
 ;; for code auto-completion
 (use-package company
-  :diminish company-mode
-  :hook (prog-mode . company-mode)
+  :ensure t
   :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.1
-        company-selection-wrap-around t
-        company-tooltip-align-annotations t
-        company-frontends '(company-pseudo-tooltip-frontend ; show tooltip even for single candidate
-                            company-echo-metadata-frontend))
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "C-n") 'company-select-next)
-    (define-key company-active-map (kbd "C-p") 'company-select-previous)))
+  ;; Global
+  (setq company-idle-delay 1
+        company-minimum-prefix-length 1
+        company-show-numbers t
+        company-tooltip-limit 20)
+  ;; Default backends
+  (setq company-backends '((company-files)))
+  ;; Activating globally
+(global-company-mode t))
+
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :config
+  (company-quickhelp-mode 1))
 
 (use-package company-lsp
   :ensure t
@@ -143,18 +156,17 @@
   :config (setq company-lsp-cache-candidates 'auto))
 
 ;; yasnippet
-(use-package yasnippet-snippets
+(use-package yasnippet
+  :ensure t
   :config
-  (yas-global-mode +1)
-  (advice-add 'company-complete-common
-              :before
-              (lambda ()
-                (setq my-company-point (point))))
-  (advice-add 'company-complete-common
-              :after
-              (lambda ()
-                (when (equal my-company-point (point))
-                  (yas-expand)))))
+  ;; Adding yasnippet support to company
+  (add-to-list 'company-backends '(company-yasnippet))
+  ;; Activate global
+  (yas-global-mode))
+
+(use-package yasnippet-snippets
+  :ensure t
+  )
 
 ;; flymake error/warning by hovering over it
 (use-package flymake-cursor
