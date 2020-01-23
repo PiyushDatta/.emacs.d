@@ -4,9 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-save-interval 300)
- '(flymake-google-cpplint-command "cpplint")
- '(flymake-google-cpplint-filter "--filter=-whitespace/line_length,-build")
- '(flymake-google-cpplint-verbose "--verbose=0")
+ '(flycheck-c/c++-googlelint-executable "cpplint")
+ '(flycheck-googlelint-filter "-whitespace,+whitespace/braces")
+ '(flycheck-googlelint-linelength "120")
+ '(flycheck-googlelint-verbose "3")
  '(package-selected-packages
    (quote
     (company-posframe helm-posframe format-all flymake-google-cpplint flymake-cursor google-c-style flymake-google-ccplint irony-eldoc flycheck-irony company-irony company-irony-c-headers irony dumb-jump swiper treemacs-magit treemacs-projectile centaur-tabs yasnippet-snippets web-mode company-lsp lsp-java lsp-mode magit flx-ido ido-vertical-mode solaire-mode projectile use-package)))

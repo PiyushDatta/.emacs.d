@@ -91,8 +91,22 @@
   :ensure nil
   :bind ("s-j" . global-display-line-numbers-mode))
 
+;; so that magit can work properly
+(use-package magit-popup
+  :ensure t
+  :demand t
+  )
+
+(use-package magit-section
+  :ensure t
+  :demand t
+  )
+
 ;; using git inside of emacs
-(use-package magit)
+(use-package magit
+  :ensure t ; make sure it is installed
+  :demand t ; make sure it is loaded
+  )
 
 ;; highlighting changes through version control (git)
 (use-package diff-hl
@@ -115,87 +129,34 @@
   ;; (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-type)
   (setq diff-hl-margin-side 'left))
 
+;; code autocompletion
+(use-package auto-complete
+  :ensure t)
+(ac-config-default)
+
 ;; language servers
 (use-package lsp-mode
   :ensure t
-  :hook ((c-mode ; clangd
-          c++-mode  ; clangd
-          c-or-c++-mode ; clangd
-          java-mode ; eclipse-jdtls
-          js-mode ; typescript-language-server
-          python-mode ; pyls
-          dart-mode
-          web-mode) . lsp)
-  :commands lsp
   :config
-  (setq lsp-clients-clangd-executable "clangd")
-  (setq lsp-prefer-flymake nil)
+  ;; turn off for better performance
   (setq lsp-enable-symbol-highlighting nil)
-  (use-package lsp-java :after lsp))
-(add-hook 'prog-mode-hook #'lsp)
+  (add-to-list 'lsp-file-watch-ignored "build$")
+  (add-to-list 'lsp-file-watch-ignored "__pycache__$")
+  (add-to-list 'lsp-file-watch-ignored "lib/python3.6$")
+  (add-to-list 'lsp-file-watch-ignored "include/python3.6m$")
+  (add-to-list 'lsp-file-watch-ignored "bin$")
+  (add-to-list 'lsp-file-watch-ignored ".ccls-cache$")
+  :hook (prog-mode . lsp))
 
-(use-package helm-lsp
-  :ensure t
-  :requires (helm lsp-mode))
-
-;; for code auto-completion
-(use-package company
-  :ensure t
-  :config
-  ;; Global
-  (setq company-idle-delay 1)
-  ;; (setq company-minimum-prefix-length 1)
-  (setq company-show-numbers t)
-  (setq company-tooltip-limit 20)
-  ;; Default backends
-  (setq company-backends '((company-files)))
-  ;; Activating globally
-  (global-company-mode t))
-(add-hook 'prog-mode-hook 'company-mode)
-
-(use-package company-quickhelp
-  :ensure t
-  :after company
-  :config
-  (company-quickhelp-mode 1))
-(add-hook 'prog-mode-hook 'company-quickhelp-mode)
-
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  (setq company-lsp-cache-candidates 'auto))
-
-;; yasnippet
-(use-package yasnippet
-  :ensure t
-  :config
-  ;; Adding yasnippet support to company
-  (add-to-list 'company-backends '(company-yasnippet))
-  ;; Activate global
-  (yas-global-mode))
-(add-hook 'prog-mode-hook #'yas-minor-mode)
-
-(use-package yasnippet-snippets
-  :ensure t
-  )
-
-;; Add yasnippet support for all company backends
-;; https://github.com/syl20bnr/spacemacs/pull/179
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-
-;; flymake error/warning by hovering over it
-(use-package flymake-cursor
+;; error/warning checking
+(use-package flycheck
   :ensure t)
+(add-hook 'prog-mode-hook 'flycheck-mode)
+
+;; flycheck error/warning by hovering over it
+(use-package flycheck-pos-tip
+  :ensure t
+  :after flycheck)
+(add-hook 'prog-mode-hook 'flycheck-pos-tip-mode)
 
 ;;; init-programs.el ends here

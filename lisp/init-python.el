@@ -1,4 +1,4 @@
-;;; init-python.el 
+;;; init-python.el
 
 ;;; Code:
 
@@ -13,10 +13,12 @@
   :ensure t)
 
 ;; autocompletion for python
-(use-package company-jedi
-  :ensure t
-  :defer t
-  :config (add-to-list 'company-backends 'company-jedi))
+;; to install:
+;; M-x jedi:install-server
+(use-package jedi
+  :ensure t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 ;; to turn emacs into python ide
 (use-package elpy

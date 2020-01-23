@@ -13,58 +13,17 @@
   :ensure nil
   :mode ("\\.h\\'" . c++-mode))
 
-;; irony is for auto-complete, syntax checking and documentation for c++/c
-;; You will need to install irony-server first time use
-;; to install irony-server, your system need to install clang, cmake and clang-devel in advance
-;; To do so, type M-x irony-install-server RET.
-(use-package irony
-  :ensure t
-  :hook ((c-mode . irony-mode)
-         (objc-mode . irony-mode)
-         (c++-mode .irony-mode)))
-
-;; checking/documentation
-(use-package flycheck-irony
-  :ensure t
-  :after (flycheck irony)
-  :defer t)
-
-(use-package irony-eldoc
-  :ensure t
-  :after (irony)
-  :defer t)
-
-;; autocomplete
-;; Using Company with Irony
-(use-package company-irony
-  :ensure t)
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-(setq company-backends (delete 'company-semantic company-backends))
-(eval-after-load 'company
-  '(add-to-list
-    'company-backends 'company-irony))
-;; for tab completion
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-(setq company-backends (delete 'company-semantic company-backends))
-(eval-after-load 'company
-  '(add-to-list
-    'company-backends 'company-irony))
-
-;; Header file completion with company-irony-c-headers
-(use-package company-irony-c-headers
-  :ensure t
-  :config
-  (eval-after-load 'company
-    '(add-to-list
-      'company-backends '(company-irony-c-headers company-irony))))
-
-;; flymake with google for cpp
-(use-package flymake-google-cpplint
+;; the backend for lsp
+(use-package ccls
   :ensure t
   :init
+  :custom
+  (projectile-project-root-files-top-down-recurring
+   (append '("compile_commands.json" ".ccls")
+           projectile-project-root-files-top-down-recurring))
   :config
-  (add-hook 'c-mode-hook 'flymake-google-cpplint-load)
-  (add-hook 'c++-mode-hook 'flymake-google-cpplint-load))
+  (setq ccls-executable "ccls")
+  (push ".ccls-cache" projectile-globally-ignored-directories))
 
 ;; c/c++ style from google
 (use-package google-c-style
@@ -82,5 +41,19 @@
   ;; Create clang-format file using google style
   ;; clang-format -style=google -dump-config > .clang-format
   (setq clang-format-style-option "google"))
+
+;; flycheck with google for cpp
+(eval-after-load 'flycheck
+  '(progn
+     (require 'flycheck-google-cpplint)
+     ;; Add Google C++ Style checker.
+     ;; In default, syntax checked by Clang and Cppcheck.
+     (flycheck-add-next-checker 'c/c++-cppcheck
+                                '(warning . c/c++-googlelint))))
+(custom-set-variables
+ '(flycheck-c/c++-googlelint-executable "cpplint")
+ '(flycheck-googlelint-verbose "3")
+ '(flycheck-googlelint-filter "-whitespace,+whitespace/braces")
+ '(flycheck-googlelint-linelength "120"))
 
 ;;; init-c-cpp.el ends here

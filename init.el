@@ -141,13 +141,16 @@
   ;;==================********* External *********===========================
   ;; format the code
   (require-init 'format-all-mode t)
-  ;; (add-hook 'prog-mode 'format-all-mode)
-  ;; (add-hook 'before-save-hook 'format-all-mode)
+  (add-hook 'prog-mode 'format-all-mode)
+  (add-hook 'before-save-hook 'format-all-mode)
+
   ;; go to definitions
   (require-init 'dumb-jump t)
   (setq dumb-jump-selector 'helm)
   (setq dumb-jump-force-searcher 'rg)
 
+  ;; flycheck with google style code
+  (require-init 'flycheck-google-cpplint t)
   ;;==================********* Languages *********===========================
   (require-init 'init-python t)
   (require-init 'init-c-cpp t)
