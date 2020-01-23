@@ -19,7 +19,6 @@
 ;; To do so, type M-x irony-install-server RET.
 (use-package irony
   :ensure t
-  :defer t
   :hook ((c-mode . irony-mode)
          (objc-mode . irony-mode)
          (c++-mode .irony-mode)))
@@ -36,13 +35,28 @@
   :defer t)
 
 ;; autocomplete
+;; Using Company with Irony
 (use-package company-irony
-  :ensure t
-  :hook (irony-mode . (lambda () (add-to-list (make-local-variable 'company-backends) '(company-irony)))))
+  :ensure t)
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+(setq company-backends (delete 'company-semantic company-backends))
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends 'company-irony))
+;; for tab completion
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+(setq company-backends (delete 'company-semantic company-backends))
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends 'company-irony))
 
+;; Header file completion with company-irony-c-headers
 (use-package company-irony-c-headers
   :ensure t
-  :hook (irony-mode . (lambda () (add-to-list (make-local-variable 'company-backends) '(company-irony-c-headers)))))
+  :config
+  (eval-after-load 'company
+    '(add-to-list
+      'company-backends '(company-irony-c-headers company-irony))))
 
 ;; flymake with google for cpp
 (use-package flymake-google-cpplint

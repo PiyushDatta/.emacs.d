@@ -57,12 +57,14 @@
   (setq projectile-enable-caching t)
   (setq projectile-require-project-root nil)
   (setq projectile-generic-command "find -L . -type f -print0")
+  (projectile-global-mode)
   (setq projectile-current-project-on-switch 'keep)
   (setq projectile-completion-system 'helm)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "A-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
+  (helm-projectile-on)
   :custom
   (projectile-current-project-on-switch 'keep))
 
@@ -80,9 +82,9 @@
   (setq initial-frame-alist (quote ((fullscreen . maximized))))
   (blink-cursor-mode -1))
 
-;; (use-package whitespace
-;;   :ensure nil
-;;   :config (add-hook 'before-save-hook 'whitespace-cleanup))
+(use-package whitespace
+  :ensure nil
+  :config (add-hook 'before-save-hook 'whitespace-cleanup))
 
 ;; display line numbers
 (use-package display-line-numbers
@@ -126,34 +128,44 @@
           web-mode) . lsp)
   :commands lsp
   :config
+  (setq lsp-clients-clangd-executable "clangd")
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-symbol-highlighting nil)
   (use-package lsp-java :after lsp))
+(add-hook 'prog-mode-hook #'lsp)
+
+(use-package helm-lsp
+  :ensure t
+  :requires (helm lsp-mode))
 
 ;; for code auto-completion
 (use-package company
   :ensure t
   :config
   ;; Global
-  (setq company-idle-delay 1
-        company-minimum-prefix-length 1
-        company-show-numbers t
-        company-tooltip-limit 20)
+  (setq company-idle-delay 1)
+  ;; (setq company-minimum-prefix-length 1)
+  (setq company-show-numbers t)
+  (setq company-tooltip-limit 20)
   ;; Default backends
   (setq company-backends '((company-files)))
   ;; Activating globally
-(global-company-mode t))
+  (global-company-mode t))
+(add-hook 'prog-mode-hook 'company-mode)
 
 (use-package company-quickhelp
   :ensure t
   :after company
   :config
   (company-quickhelp-mode 1))
+(add-hook 'prog-mode-hook 'company-quickhelp-mode)
 
 (use-package company-lsp
   :ensure t
   :commands company-lsp
-  :config (setq company-lsp-cache-candidates 'auto))
+  :config
+  (push 'company-lsp company-backends)
+  (setq company-lsp-cache-candidates 'auto))
 
 ;; yasnippet
 (use-package yasnippet
@@ -163,10 +175,24 @@
   (add-to-list 'company-backends '(company-yasnippet))
   ;; Activate global
   (yas-global-mode))
+(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 (use-package yasnippet-snippets
   :ensure t
   )
+
+;; Add yasnippet support for all company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;; flymake error/warning by hovering over it
 (use-package flymake-cursor
