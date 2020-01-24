@@ -141,8 +141,8 @@
   ;;==================********* External *********===========================
   ;; format the code
   (require-init 'format-all-mode t)
-  (add-hook 'prog-mode 'format-all-mode)
-  (add-hook 'before-save-hook 'format-all-mode)
+  ;; (add-hook 'prog-mode 'format-all-mode)
+  ;; (add-hook 'before-save-hook 'format-all-mode)
 
   ;; go to definitions
   (require-init 'dumb-jump t)
