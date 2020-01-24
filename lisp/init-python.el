@@ -37,6 +37,8 @@
   (setq elpy-rpc-python-command "python3")
   (setq elpy-rpc-backend "jedi")
   (setq jedi:complete-on-dot t)
+  ;; turn off warning for E111 (indentation of four)
+  (setq elpy-syntax-check-command "flake8 --max-line-length 80 --ignore=E111, E114 ")
   ;; Open the Python shell in a buffer after sending code to it
   (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
   ;; Use IPython as the default shell, with a workaround to accommodate IPython 5
@@ -58,9 +60,15 @@
   :defer t
   :config (add-hook 'python-mode-hook 'flycheck-mode))
 
-;; python pep8 style standards
+;; ;; python pep8 style standards
 (use-package py-autopep8
   :ensure t
-  :config (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+  :config
+  (setq py-autopep8-options '("--max-line-length=80" "--indent-size=2")))
+  ;; (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
+;; set flycheck custom settings
+(setq flycheck-checker 'python-flake8)
+(setq flycheck-flake8-maximum-line-length 80)
+(add-to-list 'flycheck-disabled-checkers 'python-pylint)
 ;;; init-python.el ends here

@@ -144,6 +144,7 @@
   :config
   ;; turn off for better performance
   (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-prefer-flymake nil) ;; Prefer using flycheck over flymake.
   (add-to-list 'lsp-file-watch-ignored "build$")
   (add-to-list 'lsp-file-watch-ignored "__pycache__$")
   (add-to-list 'lsp-file-watch-ignored "lib/python3.6$")
@@ -155,7 +156,13 @@
 ;; error/warning checking
 (use-package flycheck
   :ensure t)
+;; Disable the error indicator on the fringe
+(setq flycheck-indication-mode nil)
+(set-face-attribute 'flycheck-fringe-warning nil :foreground (face-attribute 'fringe :background ))
+;; add to programming mode
 (add-hook 'prog-mode-hook 'flycheck-mode)
+(set-face-attribute 'flycheck-error nil :underline '(:color "red2" :style wave))
+(set-face-attribute 'flycheck-error nil :underline '(:color "yellow2" :style wave))
 
 ;; flycheck error/warning by hovering over it
 (use-package flycheck-pos-tip
