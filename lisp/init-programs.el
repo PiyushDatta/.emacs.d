@@ -50,6 +50,10 @@
   :if (executable-find "rg")
   :ensure t)
 
+(use-package helm-rg
+  :if (executable-find "rg")
+  :ensure t)
+
 ;; projectile, search for files in directory
 (use-package projectile
   :ensure t
