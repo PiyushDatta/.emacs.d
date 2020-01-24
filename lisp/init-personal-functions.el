@@ -143,7 +143,9 @@
   "Compile and run python code."
   (interactive)
   (setq current-function-time (current-time))
-  (setq compile-shell-command (format "python '%s'" curr-file-full-name))
+  ;; (setq python-run-command "test_venv/bin/python")
+  (setq python-run-command "python")
+  (setq compile-shell-command (format "%s '%s'" python-run-command curr-file-full-name))
 
   ;; Compile and execute the file
   (save-buffer curr-file-full-name)
