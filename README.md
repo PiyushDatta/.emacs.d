@@ -14,11 +14,13 @@ For windows: git clone https://github.com/PiyushDatta/.emacs.d.git C:/Users/<use
 
 # Dependancies
 
-- ripgrep (rg) for projectile-ripgrep
-- clang for cpp code
-- run: pip install python-language-server[all]
-- tidy: for html formatting
-- prettier: for CSS/JavaScript/JSON/JSX formatting
+- ripgrep (rg) - for projectile-ripgrep
+- clang - for c/c++ code
+- run for python lsp: pip install python-language-server[all]
+- run for python flycheck: pip install pylint
+- tidy - for html formatting
+- prettier - for CSS/JavaScript/JSON/JSX formatting
+- ccls - for c/c++ backend for lsp server
 
 If you are on windows:
 
